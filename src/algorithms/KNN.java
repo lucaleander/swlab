@@ -12,9 +12,10 @@ public class KNN extends AbstractAlgorithms {
 	private KdTree<Integer> manhattanTree;
 	private KdTree<Integer> sqrEuclidTree;
 	
-	public KNN (double[][] points, int[] values){
+	public KNN (double[][] points, int[] values, int k){
 		this.points=points;
 		this.values=values;
+		this.k=k;
 		IndexTree(this.points, this.values);
 	}
 
@@ -41,7 +42,7 @@ public class KNN extends AbstractAlgorithms {
 	 * Searches the k nearest neighbors to point in the Euclidian distance Tree
 	 */
 	
-	public int KNNEuclid (double[] point, int k){
+	public int KNNEuclid (double[] point){
 	int pointclass=0;
 	List<Entry<Integer>> classes;
 	classes = sqrEuclidTree.nearestNeighbor(point, k, false);
@@ -54,7 +55,7 @@ public class KNN extends AbstractAlgorithms {
 	 * Searches the k nearest neighbors to point in the Manhattan distance Tree
 	 */
 
-	public int KNNManhattan(double[] point, int k){
+	public int KNNManhattan(double[] point){
 		int pointclass=0;
 		List<Entry<Integer>> classes;
 		classes = manhattanTree.nearestNeighbor(point, k, false);
@@ -62,6 +63,10 @@ public class KNN extends AbstractAlgorithms {
 		manhattanTree.addPoint(point, pointclass);
 
 		return pointclass;
+	}
+	
+	public int mismatchedObjects(){
+		return 0;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.util.List;
 public abstract class AbstractAlgorithms {
 	protected double points[][];
 	protected int values[];
+	protected int k;
 
 	
 	/*
@@ -31,6 +32,10 @@ public abstract class AbstractAlgorithms {
 			common=temp;
 		}
 	return common;	
+	}
+	
+	public int numberTestobjects(){
+		return points.length;
 	}
 
 	
