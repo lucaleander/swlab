@@ -1,23 +1,36 @@
 package algorithms;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class KMean extends AbstractAlgorithms {
 	
+	
+	  //All Center points of the prototypes
 	private double[][] prototypeCenter;
+	//The assigned prototypes for every point
 	private double[] prototypeAssigned;
+	//The classes of all prototypes
+	private int[] prototypeClass;
 
-	public KMean(double[][] points, int k){
+	public KMean(double[][] points, int[] values, int k){
 		this.points=points;
+		this.values=values;
 		this.k=k;
-		
+		prototypeCenter = new double[k][points[0].length];
+		prototypeAssigned = new double [points.length];
+		prototypeClass = new int[k];
 	}
 	
 	public void kmeanAlgorithm(boolean euclid){
 		int randomIndex;
+		int[] checkRepeat = new int[k];
 		Random generator = new Random();
 		for (int i = 0; i < k; i++){
 			randomIndex = generator.nextInt(points.length);
+			while (Arrays.asList(checkRepeat).contains(randomIndex)==true){
+				randomIndex = generator.nextInt(points.length);
+			}
 			prototypeCenter[i]=points[randomIndex];
 		}
 		if (euclid == true){
@@ -64,31 +77,6 @@ public class KMean extends AbstractAlgorithms {
 			prototypeAssigned[i]=tempCloud;
 		}
 	}
-	
-	private double computeEuclidDistance(double[] p1, double[] p2){
-		double d = 0;
-
-		for (int i = 0; i < p1.length; i++) {
-			double diff = (p1[i] - p2[i]);
-			if (!Double.isNaN(diff)) {
-				d += diff * diff;
-			}
-		}
-		return d;
-	}
-	
-	private double computeManhattanDistance(double[] p1, double[] p2){
-		double d = 0;
-
-		for (int i = 0; i < p1.length; i++) {
-			double diff = (p1[i] - p2[i]);
-			if (!Double.isNaN(diff)) {
-				d += (diff < 0) ? -diff : diff;
-			}
-		}
-
-		return d;
-	}
 
 	
 	private void maximization(){
@@ -111,10 +99,50 @@ public class KMean extends AbstractAlgorithms {
 		for (int y = 0; y < newCloudCenter.length; y++){
 			newCloudCenter[y]=newCloudCenter[y]/temp;
 		}
-		prototypeCenter[k]=newCloudCenter;
+		prototypeCenter[i]=newCloudCenter;
 		}		
-
 	}
+	
+	public void assignPrototypeClass(int prototypeNum, int newclass){
+		prototypeClass[prototypeNum]=newclass;
+	}
+	
+	public double[][] getPrototype (int prototypeNum){
+		double[][] returnPrototype=null;
+		int returncount=0;
+		for (int i = 0; i < points.length; i++){
+			if (prototypeAssigned[i]==prototypeNum){
+				returnPrototype[returncount]=points[prototypeNum];
+				returncount++;
+			}
+		}
+		return returnPrototype;
+	}
+	
+	public double[][] checkFalseAssigned(){
+		double[][] falseAssigned=new double[points.length][points[0].length];
+		int arrayCount=0;
+		for (int i = 0; i < points.length; i++){
+			if (prototypeAssigned[i]!=values[i]){
+				falseAssigned[arrayCount]=points[i];
+				arrayCount++;
+			}
+		}
+		return falseAssigned;
+	}
+	
+//	public static void main (String[] args){
+//		double[][] points = new double[][]{{1,2,3}, {2,2,4}, {3,1,4}};
+//		int[] values = new int[] {5,6,7};
+//		int k = 3;
+//		KMean testkmean= new KMean(points, values, k);
+//		testkmean.kmeanAlgorithm(true);
+//		testkmean.assignPrototypeClass(0, 5);
+//		testkmean.assignPrototypeClass(1, 5);
+//		testkmean.assignPrototypeClass(2, 5);
+//		double[][] assigned = testkmean.checkFalseAssigned();
+//		System.out.println(assigned[0][0]);
+//	}
 	
 
 }

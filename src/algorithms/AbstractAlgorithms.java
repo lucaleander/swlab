@@ -34,6 +34,31 @@ public abstract class AbstractAlgorithms {
 	return common;	
 	}
 	
+	public double computeEuclidDistance(double[] p1, double[] p2){
+		double d = 0;
+
+		for (int i = 0; i < p1.length; i++) {
+			double diff = (p1[i] - p2[i]);
+			if (!Double.isNaN(diff)) {
+				d += diff * diff;
+			}
+		}
+		return d;
+	}
+	
+	public double computeManhattanDistance(double[] p1, double[] p2){
+		double d = 0;
+
+		for (int i = 0; i < p1.length; i++) {
+			double diff = (p1[i] - p2[i]);
+			if (!Double.isNaN(diff)) {
+				d += (diff < 0) ? -diff : diff;
+			}
+		}
+
+		return d;
+	}
+	
 	public int numberTestobjects(){
 		return points.length;
 	}
