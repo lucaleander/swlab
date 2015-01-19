@@ -11,19 +11,20 @@ public abstract class AbstractAlgorithms {
 	/*
 	 * Returns the most common element of an Integer List as an int.
 	 */
-	public static <T> int mostCommon(List<T> list){
-		Integer[] classes = list.toArray(new Integer[0]);
+	public int mostCommon(int[] newclasses){
+		int[] classes = newclasses;
 		int count = 1;
 		int temp = 0;
 		int tempCount;
-		int common = (int) classes[0];
-		
+		int common = classes[0];
 		for (int i = 0; i < (classes.length-1); i++){
-			temp = (int) classes[i];
+			temp = classes[i];
+			//System.out.println(temp);
 			tempCount=0;
 			for (int j = 0; j < classes.length; j++){
 				//System.out.println(tempCount + ", " + classes[j] + ", " + temp);
-				if (temp == (int) classes[j]){
+				if (temp == classes[j]){
+
 					tempCount++;
 				}
 			}

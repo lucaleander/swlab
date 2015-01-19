@@ -207,6 +207,7 @@ public abstract class KdTree<T> {
 	private final void extendBounds(double[] location) {
 		if (minLimit == null) {
 			minLimit = new double[dimensions];
+			//System.out.println(location.length + " " + minLimit.length + " " + dimensions);
 			System.arraycopy(location, 0, minLimit, 0, dimensions);
 			maxLimit = new double[dimensions];
 			System.arraycopy(location, 0, maxLimit, 0, dimensions);
