@@ -12,11 +12,6 @@ import data.IntTargetValue;
 import data.LearningData;
 import data.Schema;
 
-/*
- * TODO: Schema check is GUI job?
- * TODO: Check end <= numOf...
- */
-
 public class MinstConverter {
 
 	@SuppressWarnings("resource")
@@ -28,6 +23,10 @@ public class MinstConverter {
 		fh.read(bs); // number of items
 		int numOfLabels = java.nio.ByteBuffer.wrap(bs).getInt();
 		IntTargetValue[] intTargetValues = new IntTargetValue[numOfLabels];
+
+		if(end > numOfLabels) {
+			throw new ParserException("parameter \"end\" is out of bound");
+		}		
 		
 		byte[] b = new byte[1];
 		for(int i = begin; i < end; i++) {
@@ -53,6 +52,10 @@ public class MinstConverter {
 		int rows = java.nio.ByteBuffer.wrap(bs).getInt();
 		fh.read(bs); // number of columns
 		int columns = java.nio.ByteBuffer.wrap(bs).getInt();
+		
+		if(end > numOfImages) {
+			throw new ParserException("parameter \"end\" is out of bound");
+		}
 		
 		if(imageDefinition.getRowLength() != rows || imageDefinition.getColumnLength() != columns) {
 			throw new ParserException("image size invalid in " + filePath + ". Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + rows + "x" + columns);
