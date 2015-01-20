@@ -6,37 +6,43 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import data.ImageDefinition;
+import data.ImageValue;
 import data.IntTargetDefinition;
 import data.IntTargetValue;
 import data.LearningData;
 import data.Schema;
 
+/*
+ * TODO: Schema check is GUI job?
+ * TODO: Check end <= numOf...
+ */
+
 public class MinstConverter {
 
 	@SuppressWarnings("resource")
-	public static int[] loadLabelFile(String filePath) throws IOException {
+	public static IntTargetValue[] loadLabelFile(IntTargetDefinition intTargetDefinition, int begin, int end, String filePath) throws IOException, ParserException {
 		FileInputStream fh = new FileInputStream(filePath);
 		
 		byte[] bs = new byte[4];
 		fh.read(bs); // magic number
 		fh.read(bs); // number of items
 		int numOfLabels = java.nio.ByteBuffer.wrap(bs).getInt();
-		int[] intTargetValues = new int[numOfLabels];
+		IntTargetValue[] intTargetValues = new IntTargetValue[numOfLabels];
 		
 		byte[] b = new byte[1];
-		for(int i = 0; i < numOfLabels; i++) {
+		for(int i = begin; i < end; i++) {
 			fh.read(b);
 			if(!intTargetDefinition.inRange(b[0] & 0xFF)) {
-				//TODO raise Exception
+				throw new ParserException("integer not in range in " + filePath + " on position " + i);
 			}
-			intTargetValues[i] = b[0] & 0xFF;
+			intTargetValues[i] = new IntTargetValue(intTargetDefinition, b[0] & 0xFF);
 		}
 		
 		return intTargetValues;
 	}
 	
 	@SuppressWarnings("resource")
-	public static int[][] loadImageFile(String filePath) throws IOException {
+	public static ImageValue[] loadImageFile(ImageDefinition imageDefinition, int begin, int end, String filePath) throws IOException, ParserException {
 		FileInputStream fh = new FileInputStream(filePath);
 		
 		byte[] bs = new byte[4];
@@ -44,40 +50,32 @@ public class MinstConverter {
 		fh.read(bs); // number of images
 		int numOfImages = java.nio.ByteBuffer.wrap(bs).getInt();
 		fh.read(bs); // number of rows
-		int numberOfRows = java.nio.ByteBuffer.wrap(bs).getInt();
+		int rows = java.nio.ByteBuffer.wrap(bs).getInt();
 		fh.read(bs); // number of columns
-		int numberOfColumns = java.nio.ByteBuffer.wrap(bs).getInt();
+		int columns = java.nio.ByteBuffer.wrap(bs).getInt();
 		
-		//TODO check imageDefinition
-		
-		int[][] imageData = new int[numOfImages][numberOfRows*numberOfColumns];
-		byte[] b = new byte[1];
-		for(int j = 0; j < numOfImages; j++) {
-			for(int i = 0; i < numberOfRows*numberOfColumns; i++) {
-				fh.read(b);
-				imageData[j][i] = b[0] & 0xFF;
-			}
+		if(imageDefinition.getRowLength() != rows || imageDefinition.getColumnLength() != columns) {
+			throw new ParserException("image size invalid in " + filePath + ". Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + rows + "x" + columns);
 		}
 		
-		return imageData;
+		ImageValue[] imageValues = new ImageValue[numOfImages];
+		byte[] b = new byte[1];
+		for(int j = begin; j < end; j++) {
+			int imageData[] = new int[rows*columns];
+			
+			for(int i = 0; i < rows*columns; i++) {
+				fh.read(b);
+				imageData[i] = b[0] & 0xFF;
+			}
+			
+			imageValues[j] = new ImageValue(imageDefinition, imageData);
+		}
+		
+		return imageValues;
 	}
 	
-	public static LearningData loadMinst(String labelFilePath, String imageFilePath) throws IOException {
-		return new LearningData(28, 28, loadLabelFile(labelFilePath), loadImageFile(imageFilePath));
+	public static LearningData loadMinst(Schema schema, int begin, int end, String labelFilePath, String imageFilePath) throws IOException, ParserException {
+		return new LearningData(schema, loadLabelFile(schema.getIntTargetDefinition(), begin, end, labelFilePath), loadImageFile(schema.getImageDefinition(), begin, end, imageFilePath));
 	}
-	
-//	public static void main(String[] args) {
-//		try {
-////			IntTargetValue[] intTargetValues = MinstConverter.loadLabelFile("./data/train-labels.idx1-ubyte");
-////			System.out.println(intTargetValues.length);
-////			System.out.println(intTargetValues[5000].getValue());
-//			
-////			int[][] imageData = loadImageFile("./data/train-images.idx3-ubyte");
-////			System.out.println(imageData.length);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 }

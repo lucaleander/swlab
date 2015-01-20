@@ -10,14 +10,28 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import data.ImageDefinition;
+import data.ImageValue;
+
 public class PngConverter {
 
-	public static byte[] loadImage(String filePath) throws IOException {
+	public static ImageValue loadImage(ImageDefinition imageDefinition, String filePath) throws IOException, ParserException {
+		BufferedImage image = ImageIO.read(new File(filePath));
+
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-		BufferedImage img = ImageIO.read(new File(filePath));
-		ImageIO.write(img, "png", byteStream);
+		ImageIO.write(image, "png", byteStream);
 		byteStream.flush();
  
-		return byteStream.toByteArray();
+		if(imageDefinition.getRowLength() != image.getHeight() || imageDefinition.getColumnLength() != image.getWidth()) {
+			throw new ParserException("image size invalid in " + filePath + ". Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + image.getHeight() + "x" + image.getWidth());
+		}
+		
+		int[] imageData = new int[image.getHeight() * image.getWidth()];
+		byte[] byteArray = byteStream.toByteArray(); 
+		for(int i = 0; i < byteArray.length; i++) {
+			imageData[i] = byteArray[i] & 0xFF;
+		}
+		
+		return new ImageValue(imageDefinition, imageData);
 	}
 } 
