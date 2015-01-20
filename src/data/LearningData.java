@@ -8,7 +8,7 @@ public class LearningData {
 	
 	
 	public LearningData(Schema schema, IntTargetValue[] intTargetValues, ImageValue[] imageValues) {
-		this.setSchema(schema);
+		this.schema = schema;
 		for(int i = 0; i < intTargetValues.length; i++) {
 			this.examples.add(new Example(intTargetValues[i], imageValues[i]));	
 		}		
