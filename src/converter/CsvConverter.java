@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 import data.LearningData;
 
-public class CsvConverter {
+public class CsvConverter extends AbstractConverter {
 
 	/*
 	 * Format:

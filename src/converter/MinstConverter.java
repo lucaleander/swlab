@@ -12,7 +12,7 @@ import data.IntTargetValue;
 import data.LearningData;
 import data.Schema;
 
-public class MinstConverter {
+public class MinstConverter extends AbstractConverter {
 
 	@SuppressWarnings("resource")
 	public static IntTargetValue[] loadLabelFile(IntTargetDefinition intTargetDefinition, int begin, int end, String filePath) throws IOException, ParserException {

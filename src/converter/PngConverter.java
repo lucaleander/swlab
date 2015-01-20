@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import data.ImageDefinition;
 import data.ImageValue;
 
-public class PngConverter {
+public class PngConverter extends AbstractConverter {
 
 	public static ImageValue loadImage(ImageDefinition imageDefinition, String filePath) throws IOException, ParserException {
 		BufferedImage image = ImageIO.read(new File(filePath));
