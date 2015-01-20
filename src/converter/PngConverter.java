@@ -28,7 +28,7 @@ public class PngConverter extends AbstractConverter {
 		
 		int[] imageData = new int[image.getHeight() * image.getWidth()];
 		byte[] byteArray = byteStream.toByteArray(); 
-		for(int i = 0; i < byteArray.length; i++) {
+		for(int i = 0; i < image.getHeight() * image.getWidth(); i++) {
 			imageData[i] = byteArray[i] & 0xFF;
 		}
 		
