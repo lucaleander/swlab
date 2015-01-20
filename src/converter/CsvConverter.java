@@ -18,15 +18,15 @@ public class CsvConverter extends AbstractConverter {
 	
 	public static void dumpFile(File file, LearningData learningData) throws IOException {
 		PrintWriter writer = new PrintWriter(file, "UTF-8");
-		for(int i = 0; i < learningData.getExamples().length; i++) {
-			writer.print(learningData.getExamples()[i].getTargetValue());
+		for(int i = 0; i < learningData.getExamples().size(); i++) {
+			writer.print(learningData.getExamples().get(i).getTargetValue());
 			writer.print(",");
-			writer.print(learningData.getExamples()[i].getImageValue().getDefinition().getRowLength());
+			writer.print(learningData.getExamples().get(i).getImageValue().getDefinition().getRowLength());
 			writer.print(",");
-			writer.print(learningData.getExamples()[i].getImageValue().getDefinition().getColumnLength());
+			writer.print(learningData.getExamples().get(i).getImageValue().getDefinition().getColumnLength());
 			writer.print(",");
-			for(int j = 0; i < learningData.getExamples()[i].getImageValue().getImageData().length; i++) {
-				writer.print(learningData.getExamples()[i].getImageValue().getImageData()[j]);
+			for(int j = 0; i < learningData.getExamples().get(i).getImageValue().getImageData().length; i++) {
+				writer.print(learningData.getExamples().get(i).getImageValue().getImageData()[j]);
 				writer.print(",");
 			}
 			writer.println();
