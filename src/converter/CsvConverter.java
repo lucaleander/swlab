@@ -1,6 +1,7 @@
 package converter;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,8 +16,8 @@ public class CsvConverter extends AbstractConverter {
 	 * label,height,width,pixel,pixel,...
 	 */
 	
-	public static void dumpFile(String filePath, LearningData learningData) throws IOException {
-		PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+	public static void dumpFile(File file, LearningData learningData) throws IOException {
+		PrintWriter writer = new PrintWriter(file, "UTF-8");
 		for(int i = 0; i < learningData.getExamples().length; i++) {
 			writer.print(learningData.getExamples()[i].getTargetValue());
 			writer.print(",");

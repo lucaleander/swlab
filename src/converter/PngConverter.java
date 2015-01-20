@@ -15,15 +15,15 @@ import data.ImageValue;
 
 public class PngConverter extends AbstractConverter {
 
-	public static ImageValue loadImage(ImageDefinition imageDefinition, String filePath) throws IOException, ParserException {
-		BufferedImage image = ImageIO.read(new File(filePath));
+	public static ImageValue loadImage(ImageDefinition imageDefinition, File file) throws IOException, ParserException {
+		BufferedImage image = ImageIO.read(file);
 
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		ImageIO.write(image, "png", byteStream);
 		byteStream.flush();
  
 		if(imageDefinition.getRowLength() != image.getHeight() || imageDefinition.getColumnLength() != image.getWidth()) {
-			throw new ParserException("image size invalid in " + filePath + ". Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + image.getHeight() + "x" + image.getWidth());
+			throw new ParserException("image size invalid. Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + image.getHeight() + "x" + image.getWidth());
 		}
 		
 		int[] imageData = new int[image.getHeight() * image.getWidth()];

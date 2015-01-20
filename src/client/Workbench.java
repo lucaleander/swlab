@@ -4,23 +4,41 @@ package client;
  */
 
 import java.io.File;
+import java.io.IOException;
+
+import converter.CsvConverter;
+import converter.MinstConverter;
+import converter.ParserException;
+import converter.PngConverter;
+import data.Example;
+import data.ImageDefinition;
+import data.IntTargetDefinition;
+import data.IntTargetValue;
+import data.LearningData;
+import data.Schema;
 
 public class Workbench {
-    public Workbench(){
-
+    private LearningData learningData;
+	
+	public Workbench() {
     }
-    public int import_MINST (File labels,File images) {
-        return 0;
+    
+    public void importMinst(File labelFile, File imageFile, int begin, int end) throws IOException, ParserException {
+    	this.learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0,9), new ImageDefinition(28, 28)), begin, end, labelFile, imageFile);
     }
-    public int import_PNG (File file) {
-        return 0;
+    
+    public void importPng(File file) throws IOException, ParserException {
+    	learningData.addExample(new Example(PngConverter.loadImage(this.learningData.getSchema().getImageDefinition(), file)));
     }
-    public int import_PNG (File file, int label) {
-        return 0;
+    
+    public void importPng(File file, int label) throws IOException, ParserException {
+    	learningData.addExample(new Example(new IntTargetValue(this.learningData.getSchema().getIntTargetDefinition(), label), PngConverter.loadImage(this.learningData.getSchema().getImageDefinition(), file)));
     }
-    public int export_CSV (File file) {
-        return 0;
+    
+    public void exportCsv(File file) throws IOException {
+    	CsvConverter.dumpFile(file, learningData);
     }
+    
     public String[] execute (int alg, int k, int nperclass, int dist){
         String[] stats = {};
         return stats;

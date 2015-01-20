@@ -8,7 +8,7 @@ public class LearningData {
 	
 	
 	public LearningData(Schema schema, IntTargetValue[] intTargetValues, ImageValue[] imageValues) {
-		this.schema = schema;
+		this.setSchema(schema);
 		for(int i = 0; i < intTargetValues.length; i++) {
 			this.examples.add(new Example(intTargetValues[i], imageValues[i]));	
 		}		
@@ -20,5 +20,9 @@ public class LearningData {
 	
 	public ArrayList<Example> getExamples() {
 		return this.examples;
+	}
+
+	public Schema getSchema() {
+		return schema;
 	}
 }

@@ -4,6 +4,10 @@ public class Example {
 	private IntTargetValue intTargetValue;
 	private ImageValue imageValue;
 	
+	public Example(ImageValue imageValue) {
+		this.imageValue = imageValue;
+	}
+	
 	public Example(IntTargetValue intTargetValue, ImageValue imageValue) {
 		this.intTargetValue = intTargetValue;
 		this.imageValue = imageValue;
