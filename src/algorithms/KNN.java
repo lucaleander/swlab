@@ -87,31 +87,31 @@ public class KNN extends AbstractAlgorithms {
 
 
 
-	public static void main (String[] args){
-		KNN testKNN;
-		double[][] testpoints;
-		testpoints = new double[][] {{1,2},{2,4},{1,5},{3,1},{5,4},{4,3},{1,0},{4,5},{2,5}};
-		int[] testvalues = new int[] {1,2,2,1,3,3,1,3,2};
-		int k = 3;
-//		List<Integer> list = new ArrayList<Integer>();
-//		int foo=0;
-//		list.add(1);
-//		list.add(1);
-//		list.add(1);
-//		list.add(3);
-//		list.add(3);
-//		list.add(1);
-//		list.add(1);
-//		list.add(3);
-//		foo = mostCommon(list);
-		testKNN = new KNN(testpoints, testvalues, k);
-		double[] newpoint = new double[] {0,0};
-		double[] newpoint2 = new double[] {5,5};
-		int pointclass = testKNN.KNNEuclid(newpoint);
-		int pointclass2 = testKNN.KNNManhattan(newpoint2);
-		System.out.println(pointclass + " " + pointclass2);
-		return;
-		
-	}
+//	public static void main (String[] args){
+//		KNN testKNN;
+//		double[][] testpoints;
+//		testpoints = new double[][] {{1,2},{2,4},{1,5},{3,1},{5,4},{4,3},{1,0},{4,5},{2,5}};
+//		int[] testvalues = new int[] {1,2,2,1,3,3,1,3,2};
+//		int k = 3;
+////		List<Integer> list = new ArrayList<Integer>();
+////		int foo=0;
+////		list.add(1);
+////		list.add(1);
+////		list.add(1);
+////		list.add(3);
+////		list.add(3);
+////		list.add(1);
+////		list.add(1);
+////		list.add(3);
+////		foo = mostCommon(list);
+//		testKNN = new KNN(testpoints, testvalues, k);
+//		double[] newpoint = new double[] {0,0};
+//		double[] newpoint2 = new double[] {5,5};
+//		int pointclass = testKNN.KNNEuclid(newpoint);
+//		int pointclass2 = testKNN.KNNManhattan(newpoint2);
+//		System.out.println(pointclass + " " + pointclass2);
+//		return;
+//		
+//	}
 
 }
