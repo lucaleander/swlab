@@ -14,7 +14,7 @@ import data.Schema;
 public class MinstConverter {
 
 	@SuppressWarnings("resource")
-	public static int[] loadLabelFile(IntTargetDefinition intTargetDefinition, String filePath) throws IOException {
+	public static int[] loadLabelFile(String filePath) throws IOException {
 		FileInputStream fh = new FileInputStream(filePath);
 		
 		byte[] bs = new byte[4];
@@ -36,7 +36,7 @@ public class MinstConverter {
 	}
 	
 	@SuppressWarnings("resource")
-	public static int[][] loadImageFile(ImageDefinition imageDefinition, String filePath) throws IOException {
+	public static int[][] loadImageFile(String filePath) throws IOException {
 		FileInputStream fh = new FileInputStream(filePath);
 		
 		byte[] bs = new byte[4];
@@ -62,23 +62,22 @@ public class MinstConverter {
 		return imageData;
 	}
 	
-	public static LearningData loadMinst(String labelFilePath, String imageFilePath) {
-		
-		return null;
+	public static LearningData loadMinst(String labelFilePath, String imageFilePath) throws IOException {
+		return new LearningData(28, 28, loadLabelFile(labelFilePath), loadImageFile(imageFilePath));
 	}
 	
-	public static void main(String[] args) {
-		try {
-//			IntTargetValue[] intTargetValues = MinstConverter.loadLabelFile("./data/train-labels.idx1-ubyte");
-//			System.out.println(intTargetValues.length);
-//			System.out.println(intTargetValues[5000].getValue());
-			
-//			int[][] imageData = loadImageFile("./data/train-images.idx3-ubyte");
-//			System.out.println(imageData.length);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+////			IntTargetValue[] intTargetValues = MinstConverter.loadLabelFile("./data/train-labels.idx1-ubyte");
+////			System.out.println(intTargetValues.length);
+////			System.out.println(intTargetValues[5000].getValue());
+//			
+////			int[][] imageData = loadImageFile("./data/train-images.idx3-ubyte");
+////			System.out.println(imageData.length);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 }
