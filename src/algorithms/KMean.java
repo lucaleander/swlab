@@ -1,7 +1,13 @@
 package algorithms;
 
+
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Random;
+
+import data.Example;
+import data.LearningData;
+
 
 public class KMean extends AbstractAlgorithms {
 	
@@ -12,26 +18,37 @@ public class KMean extends AbstractAlgorithms {
 	private int[] prototypeAssigned;
 	//The classes of all prototypes
 	private int[] prototypeClass;
-
-	public KMean(double[][] points, int[] values, int k){
-		this.points=points;
-		this.values=values;
+	private ArrayList<Example>[] cluster;
+	//TODO einzelnen punkt hinzufügen
+	//TODO learning data input
+	public KMean(LearningData data, int k){
+		ArrayList<Example> temp = data.getExamples();
+		points = new int[temp.size()][temp.get(0).getImageValue().getImageData().length];
+		for (int i = 0; i < temp.size(); i++){
+			points[i] = temp.get(i).getImageValue().getImageData();
+			values[i] = temp.get(i).getTargetValue();
+		}
 		this.k=k;
 		prototypeCenter = new double[k][points[0].length];
-		prototypeAssigned = new int [points.length];
+		//prototypeAssigned = new int [points.length];
+		ArrayList<Example>[] cluster;
 		prototypeClass = new int[k];
 	}
 	
 	public void kmeanAlgorithm(boolean euclid){
 		int randomIndex;
 		int[] checkRepeat = new int[k];
+		double[] tempCenter = new double[points[0].length];
 		Random generator = new Random();
 		for (int i = 0; i < k; i++){
 			randomIndex = generator.nextInt(points.length);
 			while (Arrays.asList(checkRepeat).contains(randomIndex)==true){
 				randomIndex = generator.nextInt(points.length);
 			}
-			prototypeCenter[i]=points[randomIndex];
+			for (int j = 0; j < points[0].length; j++){
+				tempCenter[j] = (double) points[randomIndex][j];
+			}
+			prototypeCenter[i]=tempCenter;
 		}
 		if (euclid == true){
 			for (int j = 0; j < 10; j++){
@@ -46,7 +63,7 @@ public class KMean extends AbstractAlgorithms {
 		}
 	}
 	
-	private void computeExpectationEuclid(double[][] points){
+	private void computeExpectationEuclid(int[][] points){
 		int tempCloud=0;
 		double tempDist=0;
 		double dist;
@@ -62,7 +79,7 @@ public class KMean extends AbstractAlgorithms {
 		}
 	}
 	
-	private void computeExpectationManhattan(double[][] points){
+	private void computeExpectationManhattan(int[][] points){
 		int tempCloud=0;
 		double tempDist=0;
 		double dist;
@@ -107,20 +124,20 @@ public class KMean extends AbstractAlgorithms {
 		prototypeClass[prototypeNum]=newclass;
 	}
 	
-	public double[][] getPrototype (int prototypeNum){
-		double[][] returnPrototype=null;
-		int returncount=0;
-		for (int i = 0; i < points.length; i++){
-			if (prototypeAssigned[i]==prototypeNum){
-				returnPrototype[returncount]=points[prototypeNum];
-				returncount++;
-			}
-		}
-		return returnPrototype;
+	public ArrayList<Example>[] getPrototype (){
+//		ArrayList<Example>[] returnPrototype=null;
+//		int returncount=0;
+//		for (int i = 0; i < points.length; i++){
+//			if (prototypeAssigned[i]==prototypeNum){
+//				returnPrototype[returncount]=points[prototypeNum];
+//				returncount++;
+//			}
+//		}
+		return cluster;
 	}
 	
-	public double[][] checkFalseAssigned(){
-		double[][] falseAssigned=new double[points.length][points[0].length];
+	public int[][] checkFalseAssigned(){
+		int[][] falseAssigned=new int[points.length][points[0].length];
 		int arrayCount=0;
 		for (int i = 0; i < points.length; i++){
 			if (prototypeAssigned[i]!=values[i]){
@@ -128,6 +145,7 @@ public class KMean extends AbstractAlgorithms {
 				arrayCount++;
 			}
 		}
+		//example, target value, false target value
 		return falseAssigned;
 	}
 	

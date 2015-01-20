@@ -3,7 +3,7 @@ package algorithms;
 import java.util.List;
 
 public abstract class AbstractAlgorithms {
-	protected double points[][];
+	protected int points[][];
 	protected int values[];
 	protected int k;
 
@@ -35,9 +35,9 @@ public abstract class AbstractAlgorithms {
 	return common;	
 	}
 	
-	public double computeEuclidDistance(double[] p1, double[] p2){
+	public double computeEuclidDistance(int[] p1, double[] p2){
 		double d = 0;
-
+		
 		for (int i = 0; i < p1.length; i++) {
 			double diff = (p1[i] - p2[i]);
 			if (!Double.isNaN(diff)) {
@@ -47,7 +47,7 @@ public abstract class AbstractAlgorithms {
 		return d;
 	}
 	
-	public double computeManhattanDistance(double[] p1, double[] p2){
+	public double computeManhattanDistance(int[] p1, double[] p2){
 		double d = 0;
 
 		for (int i = 0; i < p1.length; i++) {
@@ -65,12 +65,12 @@ public abstract class AbstractAlgorithms {
 	}
 
 	
-	public double[][] getPoints() {
+	public int[][] getPoints() {
 	return points;
 	}
 
 
-	public void setPoints(double points[][]) {
+	public void setPoints(int[][] points) {
 	this.points = points;
 	}
 

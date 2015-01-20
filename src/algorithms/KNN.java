@@ -5,6 +5,8 @@ package algorithms;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.Example;
+import data.LearningData;
 import algorithms.KdTree.Entry;
 
 public class KNN extends AbstractAlgorithms {
@@ -14,30 +16,38 @@ public class KNN extends AbstractAlgorithms {
 	private KdTree<Integer> sqrEuclidTree;
 	private int pointDimension;
 	
-	public KNN (double[][] points, int[] values, int k){
-		this.points=points;
-		this.values=values;
+	public KNN (LearningData data, int k){
+		ArrayList<Example> temp = data.getExamples();
+		points = new int[temp.size()][temp.get(0).getImageValue().getImageData().length];
+		for (int i = 0; i < temp.size(); i++){
+			points[i] = temp.get(i).getImageValue().getImageData();
+			values[i] = temp.get(i).getTargetValue();
+		}
 		this.k=k;
 		this.pointDimension = points[0].length;
-		IndexTree(this.points, this.values);
+		IndexTree();
 	}
 
 	/*
 	 * Creates a Manhattan distance KDTree and a Euclidian distance Tree
 	 */
+	//TODO add example without label
 	
-	private void IndexTree(double[][] points, int[] values) {
-		this.setPoints(points);
-		this.values=values;
+	private void IndexTree() {
+		double[][] tempPoints = new double[points.length][points[0].length];
 		if (manhattanTree == null){
 		manhattanTree = new KdTree.Manhattan<Integer>(pointDimension, 100000);
 		}
 		if (sqrEuclidTree == null){
 			sqrEuclidTree = new KdTree.SqrEuclid<Integer>(pointDimension, 100000);
 		}
+		for (int j = 0; j < points.length; j++){
+			for (int l = 0; l < points[0].length; l++)
+			tempPoints[j][k] = (double) points[j][k];
+		}
 		for (int i = 0; i < this.values.length; i++) {
-			sqrEuclidTree.addPoint(points[i], values[i]);
-			manhattanTree.addPoint(points[i], values[i]);
+			sqrEuclidTree.addPoint(tempPoints[i], values[i]);
+			manhattanTree.addPoint(tempPoints[i], values[i]);
 		}
 	}
 
