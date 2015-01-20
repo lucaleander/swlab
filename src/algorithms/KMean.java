@@ -9,7 +9,7 @@ public class KMean extends AbstractAlgorithms {
 	  //All Center points of the prototypes
 	private double[][] prototypeCenter;
 	//The assigned prototypes for every point
-	private double[] prototypeAssigned;
+	private int[] prototypeAssigned;
 	//The classes of all prototypes
 	private int[] prototypeClass;
 
@@ -18,7 +18,7 @@ public class KMean extends AbstractAlgorithms {
 		this.values=values;
 		this.k=k;
 		prototypeCenter = new double[k][points[0].length];
-		prototypeAssigned = new double [points.length];
+		prototypeAssigned = new int [points.length];
 		prototypeClass = new int[k];
 	}
 	
@@ -132,9 +132,9 @@ public class KMean extends AbstractAlgorithms {
 	}
 	
 //	public static void main (String[] args){
-//		double[][] points = new double[][]{{1,2,3}, {2,2,4}, {3,1,4}};
-//		int[] values = new int[] {5,6,7};
-//		int k = 3;
+//		double[][] points = new double[][] {{1,2},{2,4},{1,5},{3,1},{5,4},{4,3},{1,0},{4,5},{2,5}};
+//		int[] values = new int[] {1,2,2,1,3,3,1,3,2};
+//		int k = 5;
 //		KMean testkmean= new KMean(points, values, k);
 //		testkmean.kmeanAlgorithm(true);
 //		testkmean.assignPrototypeClass(0, 5);

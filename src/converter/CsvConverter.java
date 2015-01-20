@@ -4,20 +4,32 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import data.LearningData;
 
 public class CsvConverter {
 
-	public static void parseFile(String filePath) throws FileNotFoundException {
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
+	/*
+	 * Format:
+	 * label,height,width,pixel,pixel,...
+	 */
 	
-		String line = "";
-		while ((line = br.readLine()) != null) {
-			String[] values = line.split(",");
+	public static void dumpFile(String filePath, LearningData learningData) throws IOException {
+		PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+		for(int i = 0; i < learningData.getExamples().length; i++) {
+			writer.print(learningData.getExamples()[i].getTargetValue());
+			writer.print(",");
+			writer.print(learningData.getExamples()[i].getImageValue().getDefinition().getRowLength());
+			writer.print(",");
+			writer.print(learningData.getExamples()[i].getImageValue().getDefinition().getColumnLength());
+			writer.print(",");
+			for(int j = 0; i < learningData.getExamples()[i].getImageValue().getImageData().length; i++) {
+				writer.print(learningData.getExamples()[i].getImageValue().getImageData()[j]);
+				writer.print(",");
+			}
+			writer.println();
 		}
-		br.close();
-	}
-	
-	public static void dumpFile(String filePath, ... image) {
-		
+		writer.close();
 	}
 }

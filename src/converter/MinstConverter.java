@@ -5,20 +5,77 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import data.ImageDefinition;
+import data.ImageValue;
+import data.IntTargetDefinition;
+import data.IntTargetValue;
+import data.LearningData;
+import data.Schema;
+
+/*
+ * TODO: Schema check is GUI job?
+ * TODO: Check end <= numOf...
+ */
+
 public class MinstConverter {
 
-	public void loadLabelFile(String filePath) throws IOException {
-		FileInputStream in = new FileInputStream(new File(filePath));
-		in.read();
-		in.read();
-		in.read();
-		in.read();
-		byte[] number = new byte[4];
-		in.read(number);
+	@SuppressWarnings("resource")
+	public static IntTargetValue[] loadLabelFile(IntTargetDefinition intTargetDefinition, int begin, int end, String filePath) throws IOException, ParserException {
+		FileInputStream fh = new FileInputStream(filePath);
+		
+		byte[] bs = new byte[4];
+		fh.read(bs); // magic number
+		fh.read(bs); // number of items
+		int numOfLabels = java.nio.ByteBuffer.wrap(bs).getInt();
+		IntTargetValue[] intTargetValues = new IntTargetValue[numOfLabels];
+		
+		byte[] b = new byte[1];
+		for(int i = begin; i < end; i++) {
+			fh.read(b);
+			if(!intTargetDefinition.inRange(b[0] & 0xFF)) {
+				throw new ParserException("integer not in range in " + filePath + " on position " + i);
+			}
+			intTargetValues[i] = new IntTargetValue(intTargetDefinition, b[0] & 0xFF);
+		}
+		
+		return intTargetValues;
 	}
 	
-	public void loadImageFile(String filePath) {
+	@SuppressWarnings("resource")
+	public static ImageValue[] loadImageFile(ImageDefinition imageDefinition, int begin, int end, String filePath) throws IOException, ParserException {
+		FileInputStream fh = new FileInputStream(filePath);
 		
+		byte[] bs = new byte[4];
+		fh.read(bs); // magic number
+		fh.read(bs); // number of images
+		int numOfImages = java.nio.ByteBuffer.wrap(bs).getInt();
+		fh.read(bs); // number of rows
+		int rows = java.nio.ByteBuffer.wrap(bs).getInt();
+		fh.read(bs); // number of columns
+		int columns = java.nio.ByteBuffer.wrap(bs).getInt();
+		
+		if(imageDefinition.getRowLength() != rows || imageDefinition.getColumnLength() != columns) {
+			throw new ParserException("image size invalid in " + filePath + ". Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + rows + "x" + columns);
+		}
+		
+		ImageValue[] imageValues = new ImageValue[numOfImages];
+		byte[] b = new byte[1];
+		for(int j = begin; j < end; j++) {
+			int imageData[] = new int[rows*columns];
+			
+			for(int i = 0; i < rows*columns; i++) {
+				fh.read(b);
+				imageData[i] = b[0] & 0xFF;
+			}
+			
+			imageValues[j] = new ImageValue(imageDefinition, imageData);
+		}
+		
+		return imageValues;
+	}
+	
+	public static LearningData loadMinst(Schema schema, int begin, int end, String labelFilePath, String imageFilePath) throws IOException, ParserException {
+		return new LearningData(schema, loadLabelFile(schema.getIntTargetDefinition(), begin, end, labelFilePath), loadImageFile(schema.getImageDefinition(), begin, end, imageFilePath));
 	}
 	
 }
