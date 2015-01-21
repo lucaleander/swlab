@@ -29,6 +29,9 @@ public class KMean extends AbstractAlgorithms {
 		}
 		this.k=k;
 		cluster = new ArrayList<ArrayList<Example>>(k);
+		for (int i = 0; i < k; i++){
+			cluster.add(new ArrayList<Example>());
+		}
 		clusterCenter = new double[k][points[0].length];
 		clusterClass = new int[k];
 	}
@@ -85,6 +88,7 @@ public class KMean extends AbstractAlgorithms {
 		int tempCloud=0;
 		double tempDist=0;
 		double dist;
+
 		for (int x = 0; x < cluster.size(); x++){
 			cluster.get(x).clear();
 		}

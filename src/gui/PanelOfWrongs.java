@@ -1,13 +1,18 @@
 package gui;
 
+import converter.ParserException;
 import converter.PngConverter;
 import data.Example;
+import data.ImageDefinition;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * Created by luca on 21.01.15.
@@ -43,11 +48,19 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         outer.add(btn_next);
         add(imgp);
         add(outer);
-        parent.add(this);
+        parent.add(this,"Wrongly assigned");
         parent.setSelectedComponent(this);
     }
     private void nextPic() throws IOException {
+        //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
+        //System.out.println((exs[i].getImageValue().getImageData()).length+" should be "+(28*28));
+
         imgp = new ImagePanel(exs[i].getImageValue());
+        try {
+            imgp = new ImagePanel(PngConverter.loadImage(new ImageDefinition(28,28),new File("data/2.png")));
+        } catch (ParserException e) {
+            e.printStackTrace();
+        }
         //System.out.println("This:"+exs[i].getTargetValue());
         tf1.setText(Integer.toString(exs[i].getTargetValue()));
         tf2.setText(Integer.toString(res[i]));
