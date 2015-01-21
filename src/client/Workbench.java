@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import algorithms.FalseAssigned;
 import algorithms.KMean;
 import algorithms.KNN;
 import converter.CsvConverter;
@@ -39,7 +40,7 @@ public class Workbench {
     }
 
     public Knncontainer executeknn(int k, int n, boolean dist) {
-        KNN knn = new KNN(new ArrayList<Example>(learningData.getExamples().subList(n, learningData.getExamples().size())), k);
+        KNN knn = new KNN(new ArrayList<Example>(learningData.getExamples().subList(n+1, learningData.getExamples().size())), k);
         int[] resi = new int[n];
         Example[] rese = new Example[n];
         for (int i=0; i < n; i++){
@@ -51,7 +52,7 @@ public class Workbench {
             rese[i] = example;
             resi[i] = ret;
         }
-        return new Knncontainer(rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0, n))),0);
+        return new Knncontainer(rese,resi,Example.getClassesByCount(learningData.getExamples().subList(n+1, learningData.getExamples().size())),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0, n))),0);
     }
     public File getPng (ImageValue img) {
         return new File("/home/luca/test.png");
@@ -59,7 +60,7 @@ public class Workbench {
 
     //KMean: 1. learn 2. assign cluster 3. addTestdata 4. show wrongs
     public ArrayList<ArrayList<Example>> kmeanlearn(int k, int n, boolean dist) {
-        kmean = new KMean(new ArrayList<Example>(learningData.getExamples().subList(n, learningData.getExamples().size())), k);
+        kmean = new KMean(new ArrayList<Example>(learningData.getExamples().subList(n+1, learningData.getExamples().size())), k);
         kmean.kmeanAlgorithm(dist);
         return kmean.getCluster();
     }
@@ -72,8 +73,8 @@ public class Workbench {
             rese[i] = example;
             resi[i] = kmean.addPoint(example);
         }
-        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),0);
-    }
+        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples().subList(n+1, learningData.getExamples().size())),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),0);
+        }
     public void importPerst(String name) {
         PerstLearningData db = PerstLearningData.getInstance();
         learningData = db.getLearningData(name);
