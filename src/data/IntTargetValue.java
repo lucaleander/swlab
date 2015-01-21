@@ -12,4 +12,8 @@ public class IntTargetValue {
 	public int getValue() {
 		return value;
 	}
+
+	public IntTargetDefinition getIntTargetDefinition() {
+		return intTargetDefinition;
+	}
 }

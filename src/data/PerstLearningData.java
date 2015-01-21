@@ -1,15 +1,8 @@
 package data;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.garret.perst.Index;
 import org.garret.perst.Storage;
 import org.garret.perst.StorageFactory;
-
-import converter.MinstConverter;
-import converter.ParserException;
 
 @SuppressWarnings("rawtypes")
 public class PerstLearningData {
@@ -25,12 +18,11 @@ public class PerstLearningData {
 		return instance;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private PerstLearningData(String dbName) {
 		storage = StorageFactory.getInstance().createStorage();
 		storage.open(dbName, 1024);
 		
-		root = (Index) storage.getRoot(); // get storage root
+		root = (Index) storage.getRoot();
 		if (root == null) {
 			root = storage.createIndex(String.class, true);
 		}
@@ -44,7 +36,7 @@ public class PerstLearningData {
 	}
 	
 	public LearningData getLearningData(String name) {
-		return (LearningData) root.get("main-object");
+		return (LearningData) root.get(name);
 	}
 	
 	protected Storage getStorage() {
@@ -56,15 +48,17 @@ public class PerstLearningData {
 	}
 
 	public static void main(String[] args) {
-		LearningData learningData = null;
-		try {
-			learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), 1, 100, new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"));
-		} catch (IOException | ParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		PerstLearningData db = PerstLearningData.getInstance();
-		db.addLearningData("first", learningData);
-		System.out.println(db.getLearningData("first"));
+//		LearningData learningData = null;
+//		try {
+//			learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), 1, 100, new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"));
+//		} catch (IOException | ParserException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		PerstLearningData db = PerstLearningData.getInstance();
+//		db.addLearningData("first", learningData);
+//		db.closeDB();
+//		System.out.println(db.getLearningData("first"));
+		System.out.println((byte) (int) 1);
 	}
 }
