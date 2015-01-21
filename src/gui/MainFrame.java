@@ -304,7 +304,9 @@ public class MainFrame extends JFrame implements ActionListener{
             if (0 < cluster_list.get(cluster_i).size()){
                 cluster_j = 0;
                 try {
+                    clusterframe.remove(clusterimgp);
                     clusterimgp = new ImagePanel(cluster_list.get(cluster_i).get(cluster_j).getImageValue());
+                    clusterframe.add(clusterimgp);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
