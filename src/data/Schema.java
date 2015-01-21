@@ -1,7 +1,5 @@
 package data;
 
-import org.garret.perst.Persistent;
-
 public class Schema {
 	private IntTargetDefinition intTargetDefiniton;
 	private ImageDefinition imageDefinition;

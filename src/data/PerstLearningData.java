@@ -1,15 +1,8 @@
 package data;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.garret.perst.Index;
 import org.garret.perst.Storage;
 import org.garret.perst.StorageFactory;
-
-import converter.MinstConverter;
-import converter.ParserException;
 
 @SuppressWarnings("rawtypes")
 public class PerstLearningData {
@@ -25,12 +18,11 @@ public class PerstLearningData {
 		return instance;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private PerstLearningData(String dbName) {
 		storage = StorageFactory.getInstance().createStorage();
 		storage.open(dbName, 1024);
 		
-		root = (Index) storage.getRoot(); // get storage root
+		root = (Index) storage.getRoot();
 		if (root == null) {
 			root = storage.createIndex(String.class, true);
 		}

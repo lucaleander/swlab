@@ -1,7 +1,5 @@
 package data;
 
-import org.garret.perst.Persistent;
-
 public class IntTargetDefinition {
 	private int minimum;
 	private int maximum;
