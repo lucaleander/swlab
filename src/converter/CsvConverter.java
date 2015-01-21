@@ -22,7 +22,7 @@ public class CsvConverter extends AbstractConverter {
 			writer.print(",");
 			writer.print(learningData.getExamples().get(i).getImageValue().getDefinition().getColumnLength());
 			writer.print(",");
-			for(int j = 0; i < learningData.getExamples().get(i).getImageValue().getImageData().length; i++) {
+			for(int j = 0; j < learningData.getExamples().get(i).getImageValue().getImageData().length; j++) {
 				writer.print(learningData.getExamples().get(i).getImageValue().getImageData()[j]);
 				writer.print(",");
 			}
