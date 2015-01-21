@@ -7,8 +7,6 @@ import java.util.Random;
 
 import data.Example;
 import data.ImageValue;
-import data.IntTargetDefinition;
-import data.IntTargetValue;
 import data.LearningData;
 
 
@@ -123,12 +121,11 @@ public class KMean extends AbstractAlgorithms {
 		prototypeClass[prototypeNum]=newclass;
 	}
 	
-	public Example addPoint(ImageValue newValue, boolean euclid){
-		Example newExample;
-		IntTargetValue targetVal;
-		IntTargetDefinition targetDef = new IntTargetDefinition(0, 9);
+	public int addPoint(Example newEx, boolean euclid){
+		ImageValue newValue = newEx.getImageValue();
+		int tempCloud;
 		if (euclid == true){
-			int tempCloud=0;
+			tempCloud=0;
 			double tempDist=0;
 			double dist;
 				for (int j = 0; j < k; j++){
@@ -138,11 +135,9 @@ public class KMean extends AbstractAlgorithms {
 						tempDist=dist;
 					}
 				}
-			targetVal = new IntTargetValue(targetDef, tempCloud);
-			newExample= new Example(targetVal, newValue);
-			cluster[tempCloud].add(newExample);
+			cluster[tempCloud].add(newEx);
 		}else{
-			int tempCloud=0;
+			tempCloud=0;
 			double tempDist=0;
 			double dist;
 				for (int j = 0; j < k; j++){
@@ -152,11 +147,9 @@ public class KMean extends AbstractAlgorithms {
 						tempDist=dist;
 					}
 				}
-			targetVal = new IntTargetValue(targetDef, tempCloud);
-			newExample= new Example(targetVal, newValue);
-			cluster[tempCloud].add(newExample);
+			cluster[tempCloud].add(newEx);
 			}
-		return newExample;
+		return prototypeClass[tempCloud];
 	}
 	
 	public ArrayList<Example>[] getCluster (){
@@ -176,7 +169,7 @@ public class KMean extends AbstractAlgorithms {
 		for (int i = 0; i < k; i++){
 			for (int j = 0; j < cluster[i].size(); j++){
 				if (cluster[i].get(j).getTargetValue() != prototypeClass[i]){
-					falseList.add(new FalseAssigned(cluster[i].get(j), i));
+					falseList.add(new FalseAssigned(cluster[i].get(j), prototypeClass[i]));
 				}
 			}
 		}
