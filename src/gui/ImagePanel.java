@@ -34,7 +34,7 @@ public class ImagePanel extends JPanel{
     public ImagePanel(ImageValue imageValue) throws IOException {
 		byte[] byteArray = new byte[imageValue.getImageData().length];
 		for(int i = 0; i < imageValue.getImageData().length; i++) {
-			byteArray[i] = (byte) imageValue.getImageData()[i];
+			byteArray[i] = (byte) (255 - imageValue.getImageData()[i]);
 		}
 		
 		image = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
