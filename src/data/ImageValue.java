@@ -1,5 +1,7 @@
 package data;
 
+import org.garret.perst.Persistent;
+
 public class ImageValue {
 	private ImageDefinition imageDefinition;
 	private int[] imageData;

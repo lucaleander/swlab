@@ -1,5 +1,7 @@
 package data;
 
+import org.garret.perst.Persistent;
+
 public class ImageDefinition {
 	private int rows;
 	private int columns;

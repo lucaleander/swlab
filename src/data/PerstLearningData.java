@@ -44,7 +44,7 @@ public class PerstLearningData {
 	}
 	
 	public LearningData getLearningData(String name) {
-		return (LearningData) root.get("main-object");
+		return (LearningData) root.get(name);
 	}
 	
 	protected Storage getStorage() {
@@ -65,6 +65,7 @@ public class PerstLearningData {
 		}
 		PerstLearningData db = PerstLearningData.getInstance();
 		db.addLearningData("first", learningData);
+		db.closeDB();
 		System.out.println(db.getLearningData("first"));
 	}
 }

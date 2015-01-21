@@ -1,5 +1,7 @@
 package data;
 
+import org.garret.perst.Persistent;
+
 public class Example {
 	private IntTargetValue intTargetValue;
 	private ImageValue imageValue;

@@ -1,5 +1,7 @@
 package data;
 
+import org.garret.perst.Persistent;
+
 public class IntTargetValue {
 	private IntTargetDefinition intTargetDefinition;
 	private int value;
