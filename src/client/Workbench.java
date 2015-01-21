@@ -84,6 +84,7 @@ public class Workbench {
     	try {
 			wb.importMinst(new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"), 0, 200);
 			Knncontainer knncontainer = wb.executeknn(20, 10, true);
+			System.out.println(knncontainer.getError());
 		} catch (IOException | ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
