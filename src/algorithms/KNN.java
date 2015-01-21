@@ -59,7 +59,7 @@ public class KNN extends AbstractAlgorithms {
 	int pointclass=0;
 	double[] point = new double[newValue.getImageData().length];
 	for (int i = 0; i < newValue.getImageData().length; i++){
-		point[i]=(double) newValue.getImageData()[i];
+		point[i]= newValue.getImageData()[i];
 	}
 	//List <Integer> classes = new ArrayList<Integer>();
 	int[] classes;
@@ -68,9 +68,11 @@ public class KNN extends AbstractAlgorithms {
 	classes = new int[classesEntry.size()];
 	for (int i= 0; i < classesEntry.size(); i++){
 		classes[i] = (classesEntry.get(i).value);
+		System.out.println(classes[i]);
 	}
 	pointclass = mostCommon(classes);
 	sqrEuclidTree.addPoint(point, pointclass);
+	//System.out.println(pointclass);
 	return pointclass;
 	}
 	
@@ -131,5 +133,18 @@ public class KNN extends AbstractAlgorithms {
 //		return;
 //		
 //	}
+	
+	public static void main(String[] args){
+		int[] asdf = new int[]{4,
+				1,
+				9,
+				2,
+				1,
+				3,
+				1,
+				4,3,				5};
+		System.out.println(mostCommon(asdf));
+		return;
+	}
 
 }
