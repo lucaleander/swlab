@@ -21,13 +21,17 @@ import data.Kmeancontainer;
 import data.Knncontainer;
 
 public class MainFrame extends JFrame implements ActionListener{
+    static final String path_images = "/home/luca/train-images.idx3-ubyte";
+    static final String path_labels = "/home/luca/train-labels.idx1-ubyte";
 
     static private final String newline = "\n";
     JButton openLabels,openImages,importbtn,exportCSV,btn_import,btn_execute,btn_import_png,btn_skip_png,btn_cluster_more,btn_cluster;
     JFileChooser fc,fcPNG;
     Workbench wbench = new Workbench();
     JTabbedPane tabbedPane;
-    File file_labels, file_images, importedPNG;
+    File file_labels = new File(localsettings.path_labels);
+    File file_images = new File(localsettings.path_images);
+    File importedPNG;
     JTextField tf_k, tf_n, tf_size, tf_start;
     JComboBox cb_algo, cb_dist,cb_pngimport, cb_cluster;
     JPanel setuppanel, pngpanel, clusterpanel,importpanel,exportpanel,statspanel;
@@ -55,8 +59,8 @@ public class MainFrame extends JFrame implements ActionListener{
         openImages.addActionListener(this);
         importbtn = new JButton("Begin import");
         importbtn.addActionListener(this);
-        tf_size = new JTextField();
-        tf_start = new JTextField();
+        tf_size = new JTextField("420");
+        tf_start = new JTextField("0");
         importpanel.add(openLabels);
         importpanel.add(openImages);
         JComponent range = new JPanel();
@@ -157,7 +161,7 @@ public class MainFrame extends JFrame implements ActionListener{
         setuppanel.add(new JLabel("Algorithm"));
         setuppanel.add(cb_algo);
 
-        tf_k = new JTextField();
+        tf_k = new JTextField("20");
         setuppanel.add(new JLabel("k"));
         setuppanel.add(tf_k);
 
@@ -166,7 +170,7 @@ public class MainFrame extends JFrame implements ActionListener{
         setuppanel.add(new JLabel("Distance measuring"));
         setuppanel.add(cb_dist);
 
-        tf_n = new JTextField();
+        tf_n = new JTextField("10");
         setuppanel.add(new JLabel("How many test datas?"));
         setuppanel.add(tf_n);
 
@@ -244,7 +248,6 @@ public class MainFrame extends JFrame implements ActionListener{
             }
         } else if (e.getSource() == importbtn) {
             try {
-                System.out.println(tf_start.getText() + " "+tf_size.getText());
                 wbench.importMinst( file_labels,file_images,Integer.parseInt(tf_start.getText()),Integer.parseInt(tf_size.getText()) );
                 tabbedPane.remove(importpanel);
                 tabbedPane.addTab("Export", exportpanel);
