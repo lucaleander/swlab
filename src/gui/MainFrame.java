@@ -213,10 +213,10 @@ public class MainFrame extends JFrame implements ActionListener{
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                tabbedPane.add("Import PNG",pngpanel);
+                tabbedPane.add("Import PNG", pngpanel);
                 tabbedPane.setSelectedComponent(pngpanel);
             }
-        } else if (e.getSource() == btn_execute && cb_algo.getSelectedIndex() == 1) {
+        } else if (e.getSource() == btn_execute) {
             boolean dist;
             String diststr;
             if (cb_dist.getSelectedIndex() == 1) {dist = true; diststr = "euclidean";} else {dist = false; diststr = "Manhattan";}
