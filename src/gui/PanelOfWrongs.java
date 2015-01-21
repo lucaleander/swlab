@@ -22,9 +22,11 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
     private int[] res;
     int i = 0;
     ImagePanel imgp;
+    JPanel imgp_frame;
     JTextField tf1,tf2;
     JButton btn_next,btn_skip;
     JTabbedPane parent;
+    Boolean test = false;
 
 
     public PanelOfWrongs(JTabbedPane parent,Example[] exs,int[] res) throws IOException {
@@ -35,6 +37,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         JPanel outer = new JPanel(new GridLayout(0,2));
         tf1 = new JTextField();
         tf2 = new JTextField();
+        imgp_frame = new JPanel(new GridLayout(0,1));
         nextPic();
         outer.add(new JLabel("Labeled as"));
         outer.add(new JLabel("Wrongly detected as"));
@@ -46,7 +49,8 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         btn_next.addActionListener(this);
         outer.add(btn_skip);
         outer.add(btn_next);
-        add(imgp);
+        imgp_frame.add(imgp);
+        add(imgp_frame);
         add(outer);
         parent.add(this,"Wrongly assigned");
         parent.setSelectedComponent(this);
@@ -54,8 +58,11 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
     private void nextPic() throws IOException {
         //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
         //System.out.println((exs[i].getImageValue().getImageData()).length+" should be "+(28*28));
-
+        if (null != imgp) imgp_frame.remove(imgp);
         imgp = new ImagePanel(exs[i].getImageValue());
+        imgp_frame.add(imgp);
+        validate();
+
         /*try {
             imgp = new ImagePanel(PngConverter.loadImage(new ImageDefinition(28,28),new File("data/2.png")));
         } catch (ParserException e) {
