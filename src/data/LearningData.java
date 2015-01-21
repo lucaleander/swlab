@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class LearningData {
 	private Schema schema;
-	private ArrayList<Example> examples;
+	private ArrayList<Example> examples = new ArrayList<Example>();
 	
 	
 	public LearningData(Schema schema, IntTargetValue[] intTargetValues, ImageValue[] imageValues) {
