@@ -82,31 +82,29 @@ public class KMean extends AbstractAlgorithms {
 				dist = computeEuclidDistance(points[i], clusterCenter[j]);
 				if (tempDist < 0 || dist < tempDist){
 					tempCloud=j;
-					System.out.println(tempCloud);
 					tempDist=dist;
 				}
 				dist = 0;
 			}
-			//System.out.println(tempCloud);
 			cluster.get(tempCloud).add(temp.get(i));
 		}
 	}
 	
 	private void computeExpectationManhattan(int[][] points){
 		int tempCloud=0;
-		double tempDist=0;
-		double dist;
-
+		double dist = 0;
 		for (int x = 0; x < cluster.size(); x++){
 			cluster.get(x).clear();
 		}
 		for (int i = 0; i < points.length; i++){
+			double tempDist= -1;
 			for (int j = 0; j < k; j++){
 				dist = computeManhattanDistance(points[i], clusterCenter[j]);
-				if (!(tempDist < dist)){
+				if (tempDist < 0 || dist < tempDist){
 					tempCloud=j;
 					tempDist=dist;
 				}
+				dist = 0;
 			}
 			cluster.get(tempCloud).add(temp.get(i));
 		}
@@ -116,11 +114,8 @@ public class KMean extends AbstractAlgorithms {
 	private void maximization(){
 		double[] newCloudCenter;
 		int temp = 0;
-		newCloudCenter = new double[points[0].length];
 		for (int i = 0; i < k; i++){
-			for (int x = 0; x < points[0].length; x++){
-				newCloudCenter[x]=0;
-			}
+			newCloudCenter = new double[points[0].length];
 			for (int j = 0; j < cluster.get(i).size(); j++){
 					for (int h = 0; h < points[0].length; h++){
 						newCloudCenter[h]+=cluster.get(i).get(j).getImageValue().getImageData()[h];
@@ -133,8 +128,6 @@ public class KMean extends AbstractAlgorithms {
 				temp = cluster.get(i).size();
 			}
 			newCloudCenter[y]=newCloudCenter[y]/temp;
-			//System.out.println(cluster.get(i).size());
-			//System.out.println(temp);
 		}
 		clusterCenter[i]=newCloudCenter;
 		}		
