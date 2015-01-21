@@ -10,7 +10,7 @@ public class IntTargetDefinition {
 	}
 	
 	public int getClasses() {
-		return maximum - minimum;
+		return 10;
 	}
 	
 	public boolean inRange(int value) {
