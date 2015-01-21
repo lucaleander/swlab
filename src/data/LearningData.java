@@ -2,10 +2,11 @@ package data;
 
 import java.util.ArrayList;
 
-public class LearningData {
+import org.garret.perst.Persistent;
+
+public class LearningData extends Persistent {
 	private Schema schema;
 	private ArrayList<Example> examples = new ArrayList<Example>();
-	
 	
 	public LearningData(Schema schema, IntTargetValue[] intTargetValues, ImageValue[] imageValues) {
 		this.schema = schema;
