@@ -56,16 +56,17 @@ public class PerstLearningData {
 	}
 
 	public static void main(String[] args) {
-		LearningData learningData = null;
-		try {
-			learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), 1, 100, new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"));
-		} catch (IOException | ParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		PerstLearningData db = PerstLearningData.getInstance();
-		db.addLearningData("first", learningData);
-		db.closeDB();
-		System.out.println(db.getLearningData("first"));
+//		LearningData learningData = null;
+//		try {
+//			learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), 1, 100, new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"));
+//		} catch (IOException | ParserException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		PerstLearningData db = PerstLearningData.getInstance();
+//		db.addLearningData("first", learningData);
+//		db.closeDB();
+//		System.out.println(db.getLearningData("first"));
+		System.out.println((byte) (int) 1);
 	}
 }
