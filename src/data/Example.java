@@ -39,4 +39,8 @@ public class Example {
 		
 		return classes;
 	}
+
+	public void setTargetValue(IntTargetValue targetValue){
+		this.intTargetValue = targetValue;
+	}
 }

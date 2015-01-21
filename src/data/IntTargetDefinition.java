@@ -9,6 +9,10 @@ public class IntTargetDefinition {
 		this.maximum = maximum;
 	}
 	
+	public int getClasses() {
+		return maximum - minimum;
+	}
+	
 	public boolean inRange(int value) {
 		return value <= this.maximum && value >= this.minimum;
 	}
