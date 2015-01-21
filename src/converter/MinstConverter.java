@@ -68,7 +68,7 @@ public class MinstConverter extends AbstractConverter {
 		
 		ImageValue[] imageValues = new ImageValue[size];
 		
-		fh.read(new byte[begin-1*rows*columns]);
+		fh.read(new byte[(begin-1)*rows*columns]);
 		
 		byte[] b = new byte[1];
 		for(int i = 0; i < size; i++) {
