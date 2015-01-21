@@ -12,7 +12,7 @@ public class LearningData extends Persistent {
 		this.schema = schema;
 		for(int i = 0; i < intTargetValues.length; i++) {
 			this.examples.add(new Example(intTargetValues[i], imageValues[i]));	
-		}		
+		}
 	}
 	
 	public void addExample(Example example) {
