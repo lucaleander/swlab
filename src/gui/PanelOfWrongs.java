@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * Created by luca on 21.01.15.
@@ -21,14 +22,15 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
     JTabbedPane parent;
 
 
-    public PanelOfWrongs(JTabbedPane parent,Example[] exs,int[] res){
+    public PanelOfWrongs(JTabbedPane parent,Example[] exs,int[] res) throws IOException {
         this.parent = parent;
         this.exs = exs.clone();
         this.res = res.clone();
         setLayout(new GridLayout(0, 1));
         JPanel outer = new JPanel(new GridLayout(0,2));
-        nextPic();
         tf1 = new JTextField();
+        tf2 = new JTextField();
+        nextPic();
         outer.add(new JLabel("Labeled as"));
         outer.add(new JLabel("Wrongly detected as"));
         outer.add(tf1);
@@ -44,10 +46,11 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         parent.add(this);
         parent.setSelectedComponent(this);
     }
-    private void nextPic(){
-        //imgp = new ImagePanel(PngConverter.getPng(exs[i].getImageValue().getImageData()));
-        tf1.setText(new Integer(exs[i].getTargetValue()).toString());
-        tf2.setText(new Integer(res[i]).toString());
+    private void nextPic() throws IOException {
+        imgp = new ImagePanel(exs[i].getImageValue());
+        //System.out.println("This:"+exs[i].getTargetValue());
+        tf1.setText(Integer.toString(exs[i].getTargetValue()));
+        tf2.setText(Integer.toString(res[i]));
         if (i+1 >= exs.length || i+1 >= res.length ) parent.remove(this); else i++;
     }
 
@@ -57,7 +60,11 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
             parent.remove(this);
             }
         else if (e.getSource() == btn_next) {
-            nextPic();
+            try {
+                nextPic();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
     }

@@ -226,7 +226,11 @@ public class MainFrame extends JFrame implements ActionListener{
             if (cb_dist.getSelectedIndex() == 1) {dist = true; diststr = "euclidean";} else {dist = false; diststr = "Manhattan";}
             if (cb_algo.getSelectedIndex() == 0) {
                 Knncontainer result = wbench.executeknn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
-                new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                try {
+                    new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 ta_stats.append(
                         "Test finished!\n" +
                         "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
@@ -283,7 +287,11 @@ public class MainFrame extends JFrame implements ActionListener{
             if(cluster_i+1 >= cluster_list.length){
                 tabbedPane.remove(clusterpanel);
                 Kmeancontainer result = wbench.kmeantest(cluster_labels,Integer.parseInt(tf_n.getText()));
-                new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                try {
+                    new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 ta_stats.append(
                         "Test finished!\n" +
                                 "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
