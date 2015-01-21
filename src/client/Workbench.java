@@ -58,7 +58,7 @@ public class Workbench {
     }
 
     //KMean: 1. learn 2. assign cluster 3. addTestdata 4. show wrongs
-    public ArrayList<Example>[] kmeanlearn(int k, int n, boolean dist) {
+    public ArrayList<ArrayList<Example>> kmeanlearn(int k, int n, boolean dist) {
         kmean = new KMean(new ArrayList<Example>(learningData.getExamples().subList(n, learningData.getExamples().size())), k);
         kmean.kmeanAlgorithm(dist);
         return kmean.getCluster();
@@ -82,9 +82,8 @@ public class Workbench {
     public static void main(String[] args) {
     	Workbench wb = new Workbench();
     	try {
-			wb.importMinst(new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"), 0, 200);
-			Knncontainer knncontainer = wb.executeknn(20, 10, true);
-			System.out.println(knncontainer.getError());
+    		wb.importMinst(new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"), 0, 200);
+    		wb.kmeanlearn(20, 10, true);
 		} catch (IOException | ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
