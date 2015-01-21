@@ -29,11 +29,17 @@ public class PngConverter extends AbstractConverter {
 		
 		int[] imageData = new int[image.getHeight() * image.getWidth()];
 		byte[] byteArray = byteStream.toByteArray(); 
+		System.out.println(byteArray.length);
 		for(int i = 0; i < byteArray.length; i++) {
-			imageData[i] = byteArray[i];
+
+			imageData[i] = byteArray[i]&0xFF;
+			if(i > 119){
+				System.out.println(i + " " + imageData[i]);
+			}
 		}
-		
-		return new ImageValue(imageDefinition, imageData);
+		ImageValue imageValue = new ImageValue(imageDefinition, imageData);
+		imageValue.setIsLoaded(true);
+		return imageValue;
 	}
 	
 	public static void main(String[] args) {

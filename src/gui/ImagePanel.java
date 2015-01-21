@@ -21,26 +21,37 @@ public class ImagePanel extends JPanel{
 
     private BufferedImage image;
 
+    public ImagePanel(ImageValue imageValue) throws IOException {
+    	if (imageValue.isLoaded()){
+    	
+    		byte[] byteArray = new byte[imageValue.getImageData().length];
+    		for(int i = 0; i < imageValue.getImageData().length; i++) {
+    			byteArray[i] = (byte) imageValue.getImageData()[i];
+    		}
+		
+    		InputStream in = new ByteArrayInputStream(byteArray);
+    		image = ImageIO.read(in);
+    	} else {
+    		byte[] byteArray = new byte[imageValue.getImageData().length];
+    		for(int i = 0; i < imageValue.getImageData().length; i++) {
+    			byteArray[i] = (byte) (255 - imageValue.getImageData()[i]);
+    		}
+       		image = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
+    		WritableRaster wr = image.getRaster();
+    		wr.setDataElements(0, 0, 28, 28, byteArray);
+    	}
+	}
+    
 //    public ImagePanel(ImageValue imageValue) throws IOException {
 //		byte[] byteArray = new byte[imageValue.getImageData().length];
 //		for(int i = 0; i < imageValue.getImageData().length; i++) {
-//			byteArray[i] = (byte) imageValue.getImageData()[i];
+//			byteArray[i] = (byte) (255 - imageValue.getImageData()[i]);
 //		}
 //		
-//		InputStream in = new ByteArrayInputStream(byteArray);
-//		image = ImageIO.read(in);
+//		image = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
+//		WritableRaster wr = image.getRaster();
+//		wr.setDataElements(0, 0, 28, 28, byteArray);
 //	}
-    
-    public ImagePanel(ImageValue imageValue) throws IOException {
-		byte[] byteArray = new byte[imageValue.getImageData().length];
-		for(int i = 0; i < imageValue.getImageData().length; i++) {
-			byteArray[i] = (byte) (255 - imageValue.getImageData()[i]);
-		}
-		
-		image = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
-		WritableRaster wr = image.getRaster();
-		wr.setDataElements(0, 0, 28, 28, byteArray);
-	}
     
     public ImagePanel(File file) throws IOException {
         image = ImageIO.read(file);
