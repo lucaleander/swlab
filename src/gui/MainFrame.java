@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import client.Workbench;
 import converter.ParserException;
@@ -233,13 +234,13 @@ public class MainFrame extends JFrame implements ActionListener{
                 }
                 ta_stats.append(
                         "Test finished!\n" +
-                        "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
+                        "KNN learned with "+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                         "and classified "+result.getFalses().size()+" wrong with a mean squared error of: "+result.getError()+"\n"+
-                        result.getCount_of_test()+" "+result.getCount_of_test_per_class()+" objects were used in the test.\n"+
+                        result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+" objects were used in the test.\n"+
                         "Distance was measured the "+diststr+" way.");
                 tabbedPane.addTab("Stats", statspanel);
 
-            } else if (cb_algo.getSelectedIndex() == 0) {
+            } else if (cb_algo.getSelectedIndex() == 1) {
                 ArrayList<Example>[] ret;
                 ret = wbench.kmeanlearn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
                 try {
@@ -294,9 +295,9 @@ public class MainFrame extends JFrame implements ActionListener{
                 }
                 ta_stats.append(
                         "Test finished!\n" +
-                                "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
+                                "KNN learned with "+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                                 "and classified "+result+" wrong with a mean squared error of: "+result.getError()+"\n"+
-                                result.getCount_of_test()+" "+result.getCount_of_test_per_class()+" objects were used in the test.\n"+
+                                result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+" objects were used in the test.\n"+
                                 "Distance was measured the "+" way.");
             } else if (cluster_j+1 <= cluster_list[cluster_i].size()){
                 cluster_i++;
