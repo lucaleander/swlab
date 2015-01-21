@@ -6,6 +6,7 @@ package gui;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -20,14 +21,25 @@ public class ImagePanel extends JPanel{
 
     private BufferedImage image;
 
+//    public ImagePanel(ImageValue imageValue) throws IOException {
+//		byte[] byteArray = new byte[imageValue.getImageData().length];
+//		for(int i = 0; i < imageValue.getImageData().length; i++) {
+//			byteArray[i] = (byte) imageValue.getImageData()[i];
+//		}
+//		
+//		InputStream in = new ByteArrayInputStream(byteArray);
+//		image = ImageIO.read(in);
+//	}
+    
     public ImagePanel(ImageValue imageValue) throws IOException {
 		byte[] byteArray = new byte[imageValue.getImageData().length];
 		for(int i = 0; i < imageValue.getImageData().length; i++) {
 			byteArray[i] = (byte) imageValue.getImageData()[i];
 		}
 		
-		InputStream in = new ByteArrayInputStream(byteArray);
-		image = ImageIO.read(in);
+		image = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
+		WritableRaster wr = image.getRaster();
+		wr.setDataElements(0, 0, 28, 28, byteArray);
 	}
     
     public ImagePanel(File file) throws IOException {
