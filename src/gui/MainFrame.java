@@ -117,7 +117,7 @@ public class MainFrame extends JFrame implements ActionListener{
         pngpanel.add(png_import_outer);
     }
 
-    private void createClusterPanel (ArrayList<Example>[] cluster_list) throws IOException {
+    private void createClusterPanel (ArrayList<ArrayList<Example>> cluster_list) throws IOException {
         /* WIP */
         tabbedPane.remove(clusterpanel);
 
@@ -127,7 +127,7 @@ public class MainFrame extends JFrame implements ActionListener{
         cluster.setLayout(new GridLayout(0,2));
         cluster_i = 0;
         cluster_j = 0;
-        clusterimgp = new ImagePanel(cluster_list[cluster_i].get(cluster_j).getImageValue());
+        clusterimgp = new ImagePanel(cluster_list.get(cluster_i).get(cluster_j).getImageValue());
         cluster.add(new JLabel("Assign class to this cluster"));
         String[] classes = {"0","1","2","3","4","5","6","7","8","9"};
         cb_cluster = new JComboBox(classes);
@@ -241,7 +241,7 @@ public class MainFrame extends JFrame implements ActionListener{
                 tabbedPane.addTab("Stats", statspanel);
 
             } else if (cb_algo.getSelectedIndex() == 1) {
-                ArrayList<Example>[] ret;
+                ArrayList<ArrayList<Example>> ret;
                 ret = wbench.kmeanlearn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
                 try {
                     createClusterPanel(ret);
