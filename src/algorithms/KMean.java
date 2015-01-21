@@ -18,6 +18,7 @@ public class KMean extends AbstractAlgorithms {
 	private int[] prototypeClass;
 	private ArrayList<Example> temp;
 	private ArrayList<Example>[] cluster;
+	private boolean euclid;
 	public KMean(ArrayList<Example> data, int k){
 		temp = data;
 		points = new int[temp.size()][temp.get(0).getImageValue().getImageData().length];
@@ -32,6 +33,7 @@ public class KMean extends AbstractAlgorithms {
 	
 	public void kmeanAlgorithm(boolean euclid){
 		int randomIndex;
+		this.euclid = euclid;
 		int[] checkRepeat = new int[k];
 		double[] tempCenter = new double[points[0].length];
 		Random generator = new Random();
@@ -120,7 +122,7 @@ public class KMean extends AbstractAlgorithms {
 		prototypeClass[prototypeNum]=newclass;
 	}
 	
-	public int addPoint(Example newEx, boolean euclid){
+	public int addPoint(Example newEx){
 		ImageValue newValue = newEx.getImageValue();
 		int tempCloud;
 		if (euclid == true){
