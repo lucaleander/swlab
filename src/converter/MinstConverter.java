@@ -22,14 +22,15 @@ public class MinstConverter extends AbstractConverter {
 		fh.read(bs); // magic number
 		fh.read(bs); // number of items
 		int numOfLabels = java.nio.ByteBuffer.wrap(bs).getInt();
-		IntTargetValue[] intTargetValues = new IntTargetValue[numOfLabels];
-
+		
 		if(end > numOfLabels) {
 			throw new ParserException("parameter \"end\" is out of bound");
-		}		
+		}
+		
+		IntTargetValue[] intTargetValues = new IntTargetValue[end - begin];	
 		
 		byte[] b = new byte[1];
-		for(int i = begin; i < end; i++) {
+		for(int i = 0; i < end - begin; i++) {
 			fh.read(b);
 			if(!intTargetDefinition.inRange(b[0] & 0xFF)) {
 				throw new ParserException("integer not in range on position " + i);
@@ -61,9 +62,9 @@ public class MinstConverter extends AbstractConverter {
 			throw new ParserException("image size invalid. Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + rows + "x" + columns);
 		}
 		
-		ImageValue[] imageValues = new ImageValue[numOfImages];
+		ImageValue[] imageValues = new ImageValue[end - begin];
 		byte[] b = new byte[1];
-		for(int j = begin; j < end; j++) {
+		for(int j = 0; j < end - begin; j++) {
 			int imageData[] = new int[rows*columns];
 			
 			for(int i = 0; i < rows*columns; i++) {

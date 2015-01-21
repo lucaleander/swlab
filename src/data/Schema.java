@@ -4,7 +4,7 @@ public class Schema {
 	private IntTargetDefinition intTargetDefiniton;
 	private ImageDefinition imageDefinition;
 	
-	public Schema(IntTargetDefinition intTargetDefition, ImageDefinition imageDefintion) {
+	public Schema(IntTargetDefinition intTargetDefition, ImageDefinition imageDefinition) {
 		this.intTargetDefiniton = intTargetDefition;
 		this.imageDefinition = imageDefinition;
 	}
