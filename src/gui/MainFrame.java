@@ -7,26 +7,28 @@ package gui;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.NumberFormat;
+import java.io.IOException;
 
 import client.Workbench;
+import converter.ParserException;
+import data.Knncontainer;
 
 public class MainFrame extends JFrame implements ActionListener{
 
     static private final String newline = "\n";
-    JButton openLabels,openImages,importbtn,btn_import,btn_execute,btn_import_png,btn_skip_png;
+    JButton openLabels,openImages,importbtn,exportCSV,btn_import,btn_execute,btn_import_png,btn_skip_png,btn_cluster_more,btn_cluster;
     JFileChooser fc,fcPNG;
     Workbench wbench = new Workbench();
     JTabbedPane tabbedPane;
-    File file_labels, file_images;
-    JTextField tf_k, tf_n;
-    JComboBox cb_algo, cb_dist;
-    JPanel setuppanel, pngpanel;
+    File file_labels, file_images, importedPNG;
+    JTextField tf_k, tf_n, tf_size, tf_start;
+    JComboBox cb_algo, cb_dist,cb_pngimport;
+    JPanel setuppanel, pngpanel, clusterpanel,importpanel,exportpanel,statspanel;
+    JTextArea ta_stats;
 
 
     public MainFrame() {
@@ -36,25 +38,39 @@ public class MainFrame extends JFrame implements ActionListener{
 
         /* IMPORT */
         fc = new JFileChooser();
-        JPanel importpanel = new JPanel(false);
+        importpanel = new JPanel(false);
         importpanel.setLayout(new GridLayout(0, 1));
         importpanel.setPreferredSize(new Dimension(410, 150));
-        Dimension dim = new Dimension(10,10);
-        Box.Filler fill = new Box.Filler(dim,dim,dim);
         openLabels = new JButton("Select labels file...");
         openLabels.addActionListener(this);
         openImages = new JButton("Select images file...");
         openImages.addActionListener(this);
         importbtn = new JButton("Begin import");
         importbtn.addActionListener(this);
+        tf_size = new JTextField();
+        tf_start = new JTextField();
         importpanel.add(openLabels);
         importpanel.add(openImages);
-        importpanel.add(fill);
+        JComponent range = new JPanel();
+        range.setLayout(new GridLayout(1,0));
+        range.add(new JLabel("Samplesize"));
+        range.add(tf_size);
+        range.add(new JLabel("Begin at"));
+        range.add(tf_start);
+        importpanel.add(range);
         importpanel.add(importbtn);
         tabbedPane.addTab("Import", importpanel);
         /* END OF IMPORT */
+        /* EXPORT */
+        exportpanel = new JPanel(false);
+        exportpanel.setLayout(new GridLayout(0, 1));
+        exportCSV = new JButton("Export CSV");
+        exportCSV.addActionListener(this);
+        exportpanel.add(exportCSV);
+        /* END OF EXPORT */
 
         createSetupPanel();
+        createStatsPanel();
 
         add(tabbedPane);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -73,7 +89,8 @@ public class MainFrame extends JFrame implements ActionListener{
         //imgp.setSize(20,20);
         png_import.add(new JLabel("What number is  this?"));
         String[] classes = {"0","1","2","3","4","5","6","7","8","9"};
-        png_import.add(new JComboBox(classes));
+        cb_pngimport = new JComboBox(classes);
+        png_import.add(cb_pngimport);
         btn_skip_png = new JButton("Skip");
         btn_skip_png.addActionListener(this);
         btn_import_png = new JButton("That's it!");
@@ -87,30 +104,37 @@ public class MainFrame extends JFrame implements ActionListener{
         pngpanel.add(png_import_outer);
     }
 
-    private void ClusterPanel (File file) {
+    private void createClusterPanel (/*File file*/) {
         /* WIP */
-/*        tabbedPane.remove(pngpanel);
+        tabbedPane.remove(clusterpanel);
 
-        JPanel png_import_outer = new JPanel();
-        png_import_outer.setLayout(new GridLayout(0,1));
-        JPanel png_import = new JPanel();
-        png_import.setLayout(new GridLayout(0,2));
-        ImagePanel imgp = new ImagePanel(file);
-        //imgp.setSize(20,20);
-        png_import.add(new JLabel("Assign a number to this cluster"));
+        JPanel cluster_outer = new JPanel();
+        cluster_outer.setLayout(new GridLayout(0,1));
+        JPanel cluster = new JPanel();
+        cluster.setLayout(new GridLayout(0,2));
+        //ImagePanel imgp = new ImagePanel(file);
+        cluster.add(new JLabel("Assign class to this cluster"));
         String[] classes = {"0","1","2","3","4","5","6","7","8","9"};
-        png_import.add(new JComboBox(classes));
-        btn_skip_png = new JButton("Show me more");
-        btn_skip_png.addActionListener(this);
-        btn_import_png = new JButton("That's it!");
-        btn_import_png.addActionListener(this);
-        png_import.add(btn_skip_png);
-        png_import.add(btn_import_png);
+        cluster.add(new JComboBox(classes));
+        btn_cluster_more = new JButton("Show me more");
+        btn_cluster_more.addActionListener(this);
+        btn_cluster = new JButton("That's it!");
+        btn_cluster.addActionListener(this);
+        cluster.add(btn_cluster_more);
+        cluster.add(btn_cluster);
 
-        png_import_outer.add(imgp);
-        png_import_outer.add(png_import);
-        pngpanel = new JPanel();
-        pngpanel.add(png_import_outer);*/
+        //cluster_outer.add(imgp);
+        cluster_outer.add(cluster);
+        clusterpanel = new JPanel();
+        clusterpanel.add(cluster_outer);
+    }
+
+    private void createStatsPanel(){
+        statspanel = new JPanel(false);
+        statspanel.setLayout(new GridLayout(0,1));
+
+        ta_stats = new JTextArea();
+        statspanel.add(ta_stats);
     }
 
     private void createSetupPanel(){
@@ -126,7 +150,7 @@ public class MainFrame extends JFrame implements ActionListener{
         setuppanel.add(new JLabel("k"));
         setuppanel.add(tf_k);
 
-        String[] cb_dist_strings = {"Manhatten","Euclidean"};
+        String[] cb_dist_strings = {"Manhattan","Euclidean"};
         cb_dist = new JComboBox(cb_dist_strings);
         setuppanel.add(new JLabel("Distance measuring"));
         setuppanel.add(cb_dist);
@@ -160,21 +184,80 @@ public class MainFrame extends JFrame implements ActionListener{
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 file_images = fc.getSelectedFile();
             }
+        } else if (e.getSource() == exportCSV) {
+            int returnVal = fc.showOpenDialog(MainFrame.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    wbench.exportCsv(fc.getSelectedFile());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
         } else if (e.getSource() == btn_import) {
             int returnVal = fcPNG.showOpenDialog(MainFrame.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                 dialogPNG(fcPNG.getSelectedFile());
+                importedPNG = fcPNG.getSelectedFile();
+                 dialogPNG(importedPNG);
                  tabbedPane.add("Import PNG",pngpanel);
                 tabbedPane.setSelectedComponent(pngpanel);
             }
+        } else if (e.getSource() == btn_execute && cb_algo.getSelectedIndex() == 1) {
+            boolean dist;
+            String diststr;
+            if (cb_dist.getSelectedIndex() == 1) {dist = true; diststr = "euclidean";} else {dist = false; diststr = "Manhattan";}
+            if (cb_algo.getSelectedIndex() == 0) {
+                Knncontainer result = wbench.executeknn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
+                new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                ta_stats.append(
+                        "Test finished!\n" +
+                        "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
+                        "and classified "+result.getExample().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
+                        result.getCount_of_test()+" "+result.getCount_of_test_per_class()+" objects were used in the test.\n"+
+                        "Distance was measured the "+diststr+" way.");
+                tabbedPane.addTab("Stats", statspanel);
+
+            } else if (cb_algo.getSelectedIndex() == 0) {
+                wbench.executekmean(Integer.parseInt(tf_k.getText()),Integer.parseInt(tf_n.getText()),dist);
+                createClusterPanel();
+                tabbedPane.add("Cluster", clusterpanel);
+                tabbedPane.setSelectedComponent(clusterpanel);
+            }
         } else if (e.getSource() == importbtn) {
-            if (wbench.import_MINST(file_labels,file_images) == 0){
+            try {
+                System.out.println(tf_start.getText() + " "+tf_size.getText());
+                wbench.importMinst( file_labels,file_images,Integer.parseInt(tf_start.getText()),Integer.parseInt(tf_size.getText()) );
+                tabbedPane.remove(importpanel);
+                tabbedPane.addTab("Export", exportpanel);
                 tabbedPane.addTab("Setup", setuppanel);
                 tabbedPane.setSelectedComponent(setuppanel);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ParserException e1) {
+                e1.printStackTrace();
             }
-        } else if (e.getSource() == btn_import_png || e.getSource() == btn_skip_png) {
+        } else if (e.getSource() == btn_import_png) {
             tabbedPane.remove(pngpanel);
-            wbench.import_PNG(fcPNG.getSelectedFile());
+            try {
+                System.out.println(cb_pngimport.getSelectedItem().toString());
+                wbench.importPng(importedPNG,Integer.getInteger(cb_pngimport.getSelectedItem().toString()));
+                System.out.println(cb_pngimport.getSelectedItem().toString());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ParserException e1) {
+                e1.printStackTrace();
+            }
+        } else if (e.getSource() == btn_skip_png) {
+            tabbedPane.remove(pngpanel);
+            try {
+                wbench.importPng(fcPNG.getSelectedFile());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ParserException e1) {
+                e1.printStackTrace();
+            }
+        } else if (e.getSource() == btn_cluster) {
+            tabbedPane.remove(clusterpanel);
+
         }
     }
 }
