@@ -13,9 +13,9 @@ public class KMean extends AbstractAlgorithms {
 	
 	
 	 //All Center points of the prototypes
-	private double[][] prototypeCenter;
+	private double[][] clusterCenter;
 	//The classes of all prototypes
-	private int[] prototypeClass;
+	private int[] clusterClass;
 	private ArrayList<Example> temp;
 	private ArrayList<Example>[] cluster;
 	private boolean euclid;
@@ -27,8 +27,8 @@ public class KMean extends AbstractAlgorithms {
 			values[i] = temp.get(i).getTargetValue();
 		}
 		this.k=k;
-		prototypeCenter = new double[k][points[0].length];
-		prototypeClass = new int[k];
+		clusterCenter = new double[k][points[0].length];
+		clusterClass = new int[k];
 	}
 	
 	public void kmeanAlgorithm(boolean euclid){
@@ -45,7 +45,7 @@ public class KMean extends AbstractAlgorithms {
 			for (int j = 0; j < points[0].length; j++){
 				tempCenter[j] = (double) points[randomIndex][j];
 			}
-			prototypeCenter[i]=tempCenter;
+			clusterCenter[i]=tempCenter;
 		}
 		if (euclid == true){
 			for (int j = 0; j < 10; j++){
@@ -66,7 +66,7 @@ public class KMean extends AbstractAlgorithms {
 		double dist;
 		for (int i = 0; i < points.length; i++){
 			for (int j = 0; j < k; j++){
-				dist = computeEuclidDistance(points[i], prototypeCenter[j]);
+				dist = computeEuclidDistance(points[i], clusterCenter[j]);
 				if (!(tempDist < dist)){
 					tempCloud=j;
 					tempDist=dist;
@@ -85,7 +85,7 @@ public class KMean extends AbstractAlgorithms {
 		}
 		for (int i = 0; i < points.length; i++){
 			for (int j = 0; j < k; j++){
-				dist = computeManhattanDistance(points[i], prototypeCenter[j]);
+				dist = computeManhattanDistance(points[i], clusterCenter[j]);
 				if (!(tempDist < dist)){
 					tempCloud=j;
 					tempDist=dist;
@@ -114,12 +114,12 @@ public class KMean extends AbstractAlgorithms {
 		for (int y = 0; y < newCloudCenter.length; y++){
 			newCloudCenter[y]=newCloudCenter[y]/temp;
 		}
-		prototypeCenter[i]=newCloudCenter;
+		clusterCenter[i]=newCloudCenter;
 		}		
 	}
 	
 	public void assignPrototypeClass(int prototypeNum, int newclass){
-		prototypeClass[prototypeNum]=newclass;
+		clusterClass[prototypeNum]=newclass;
 	}
 	
 	public int addPoint(Example newEx){
@@ -130,7 +130,7 @@ public class KMean extends AbstractAlgorithms {
 			double tempDist=0;
 			double dist;
 				for (int j = 0; j < k; j++){
-					dist = computeEuclidDistance(newValue.getImageData(), prototypeCenter[j]);
+					dist = computeEuclidDistance(newValue.getImageData(), clusterCenter[j]);
 					if (!(tempDist < dist)){
 						tempCloud=j;
 						tempDist=dist;
@@ -142,7 +142,7 @@ public class KMean extends AbstractAlgorithms {
 			double tempDist=0;
 			double dist;
 				for (int j = 0; j < k; j++){
-					dist = computeManhattanDistance(newValue.getImageData(), prototypeCenter[j]);
+					dist = computeManhattanDistance(newValue.getImageData(), clusterCenter[j]);
 					if (!(tempDist < dist)){
 						tempCloud=j;
 						tempDist=dist;
@@ -150,7 +150,7 @@ public class KMean extends AbstractAlgorithms {
 				}
 			cluster[tempCloud].add(newEx);
 			}
-		return prototypeClass[tempCloud];
+		return clusterClass[tempCloud];
 	}
 	
 	public ArrayList<Example>[] getCluster (){
@@ -169,12 +169,27 @@ public class KMean extends AbstractAlgorithms {
 		ArrayList<FalseAssigned> falseList = new ArrayList<FalseAssigned>();
 		for (int i = 0; i < k; i++){
 			for (int j = 0; j < cluster[i].size(); j++){
-				if (cluster[i].get(j).getTargetValue() != prototypeClass[i]){
-					falseList.add(new FalseAssigned(cluster[i].get(j), prototypeClass[i]));
+				if (cluster[i].get(j).getTargetValue() != clusterClass[i]){
+					falseList.add(new FalseAssigned(cluster[i].get(j), clusterClass[i]));
 				}
 			}
 		}
 		return falseList;
+	}
+	
+	public double computeMeanSquaredError(){
+		double mse=0;
+		int errorCount = 0;
+		for (int i = 0; i < k; i++){
+			for (int j = 0; j < cluster[i].size(); j++){
+				for (int h = 0; h < cluster[i].get(j).getImageValue().getImageData().length; h++){
+					mse+=Math.pow((clusterCenter[i][h]-cluster[i].get(j).getImageValue().getImageData()[h]),2);
+					errorCount++;
+				}
+			}
+		}
+		mse=mse/errorCount;
+		return mse;
 	}
 	
 //	public static void main (String[] args){
