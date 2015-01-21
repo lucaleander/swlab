@@ -5,6 +5,6 @@ package gui;
  */
 
 public class localsettings {
-    static final String path_images = "/home/luca/train-images.idx3-ubyte";
-    static final String path_labels = "/home/luca/train-labels.idx1-ubyte";
+    static final String path_images = "./data/train-images.idx3-ubyte";
+    static final String path_labels = "./data/train-labels.idx1-ubyte";
 }
