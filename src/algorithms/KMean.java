@@ -51,6 +51,8 @@ public class KMean extends AbstractAlgorithms {
 				tempCenter[j] = (double) points[randomIndex][j];
 			}
 			clusterCenter[i]=tempCenter;
+			for (int s = 0; s < clusterCenter[0].length; s++){
+			}
 		}
 		if (euclid == true){
 			for (int j = 0; j < 10; j++){
@@ -67,19 +69,27 @@ public class KMean extends AbstractAlgorithms {
 	
 	private void computeExpectationEuclid(int[][] points){
 		int tempCloud=0;
-		double tempDist=0;
-		double dist;
+		int temp123 = 0;
+		double tempDist= 2000000000;
+		double dist = 0;
 		for (int x = 0; x < cluster.size(); x++){
 			cluster.get(x).clear();
 		}
 		for (int i = 0; i < points.length; i++){
+			tempDist= 2000000000;
 			for (int j = 0; j < k; j++){
 				dist = computeEuclidDistance(points[i], clusterCenter[j]);
-				if (!(tempDist < dist)){
+				//System.out.println(dist);
+				if (dist < tempDist){
 					tempCloud=j;
 					tempDist=dist;
 				}
+				if (tempCloud!=0){
+					System.out.println(tempCloud);
+				}
 			}
+			temp123+=tempCloud;
+			//System.out.println(tempCloud);
 			cluster.get(tempCloud).add(temp.get(i));
 		}
 	}
