@@ -335,8 +335,7 @@ public class MainFrame extends JFrame implements ActionListener{
 
 
         } else if (e.getSource() == btn_cluster_more) {
-            cluster_labels[cluster_i] = Integer.parseInt(cb_cluster.getSelectedItem().toString());
-            if (cluster_j+1 <= cluster_list.get(cluster_i).size()){
+            if (cluster_j+1 < cluster_list.get(cluster_i).size()){
                 cluster_j++;
                 try {
                     clusterframe.remove(clusterimgp);
@@ -347,6 +346,8 @@ public class MainFrame extends JFrame implements ActionListener{
                     e1.printStackTrace();
                 }
 
+            }else {
+                cluster_j = 0;
             }
 
 
