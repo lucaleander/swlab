@@ -232,7 +232,7 @@ public class MainFrame extends JFrame implements ActionListener{
                 Knncontainer result = wbench.executeknn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
                 try {
                     //new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
-                    new PanelOfWrongs(tabbedPane, result.getFalses(), result.getShouldbe());
+                    new PanelOfWrongs("Wrong test data",tabbedPane, result.getFalses(), result.getShouldbe());
 
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -318,7 +318,8 @@ public class MainFrame extends JFrame implements ActionListener{
                 tabbedPane.remove(clusterpanel);
                 Kmeancontainer result = wbench.kmeantest(cluster_labels,Integer.parseInt(tf_n.getText()));
                 try {
-                    new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                    new PanelOfWrongs("Wrong learning data",tabbedPane, result.getFalses(), result.getShouldbe());
+                    new PanelOfWrongs("Wrong test data",tabbedPane, result.getFalses(), result.getShouldbe());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -326,7 +327,7 @@ public class MainFrame extends JFrame implements ActionListener{
                 ta_stats.append(
                         "Test finished!\n" +
                                 "KMean learned with "+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
-                                "and classified "+result.getFalses().size()+" wrong with a mean squared error of: "+result.getError()+"\n"+
+                                "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                                 result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+" objects were used in the test.\n"+
                                 "Distance was measured the "+" way.");
             }

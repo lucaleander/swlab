@@ -29,7 +29,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
     Boolean test = false;
 
 
-    public PanelOfWrongs(JTabbedPane parent,Example[] exs,int[] res) throws IOException {
+    public PanelOfWrongs(String title,JTabbedPane parent,Example[] exs,int[] res) throws IOException {
         this.parent = parent;
         this.exs = exs;
         this.res = res;
@@ -52,20 +52,14 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         //imgp_frame.add(imgp);
         add(imgp_frame);
         add(outer);
-        parent.add(this,"Wrongly assigned");
+        parent.add(this,title);
         parent.setSelectedComponent(this);
     }
     private void nextPic() throws IOException {
         //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
         //System.out.println((exs[i].getImageValue().getImageData()).length+" should be "+(28*28));
         if (null != imgp) imgp_frame.remove(imgp);
-<<<<<<< HEAD
-        //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
-        //System.out.println(Arrays.toString(exs[0].getImageValue().getImageData()));
 
-
-        imgp = new ImagePanel(exs[i].getImageValue()); //exs[i].getImageValue());
-=======
         imgp = new ImagePanel(exs[i].getImageValue());
 //        try {
 //			imgp = new ImagePanel(PngConverter.loadImage(new ImageDefinition(28, 28), new File("./data/8.png")));
@@ -73,7 +67,6 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
->>>>>>> fdf8f8393dd858362eca5011035c3a14cca3939f
         imgp_frame.add(imgp);
         validate();
 
