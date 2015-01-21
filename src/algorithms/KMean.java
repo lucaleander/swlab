@@ -17,7 +17,7 @@ public class KMean extends AbstractAlgorithms {
 	//The classes of all prototypes
 	private int[] clusterClass;
 	private ArrayList<Example> temp;
-	private ArrayList<Example>[] cluster;
+	private ArrayList<ArrayList<Example>> cluster;
 	private boolean euclid;
 	public KMean(ArrayList<Example> data, int k){
 		temp = data;
@@ -28,7 +28,7 @@ public class KMean extends AbstractAlgorithms {
 			values[i] = temp.get(i).getTargetValue();
 		}
 		this.k=k;
-		cluster = (ArrayList<Example>[])new ArrayList[k];
+		cluster = new ArrayList<ArrayList<Example>>(k);
 		clusterCenter = new double[k][points[0].length];
 		clusterClass = new int[k];
 	}
@@ -66,6 +66,9 @@ public class KMean extends AbstractAlgorithms {
 		int tempCloud=0;
 		double tempDist=0;
 		double dist;
+		for (int x = 0; x < cluster.size(); x++){
+			cluster.get(x).clear();
+		}
 		for (int i = 0; i < points.length; i++){
 			for (int j = 0; j < k; j++){
 				dist = computeEuclidDistance(points[i], clusterCenter[j]);
@@ -74,7 +77,7 @@ public class KMean extends AbstractAlgorithms {
 					tempDist=dist;
 				}
 			}
-			cluster[tempCloud].add(temp.get(i));
+			cluster.get(tempCloud).add(temp.get(i));
 		}
 	}
 	
@@ -82,8 +85,8 @@ public class KMean extends AbstractAlgorithms {
 		int tempCloud=0;
 		double tempDist=0;
 		double dist;
-		for (int x = 0; x < cluster.length; x++){
-			cluster[x].clear();
+		for (int x = 0; x < cluster.size(); x++){
+			cluster.get(x).clear();
 		}
 		for (int i = 0; i < points.length; i++){
 			for (int j = 0; j < k; j++){
@@ -93,7 +96,7 @@ public class KMean extends AbstractAlgorithms {
 					tempDist=dist;
 				}
 			}
-			cluster[tempCloud].add(temp.get(i));
+			cluster.get(tempCloud).add(temp.get(i));
 		}
 	}
 
@@ -107,9 +110,9 @@ public class KMean extends AbstractAlgorithms {
 			for (int x = 0; x < points[0].length; x++){
 				newCloudCenter[x]=0;
 			}
-			for (int j = 0; j < cluster[i].size(); j++){
+			for (int j = 0; j < cluster.get(i).size(); j++){
 					for (int h = 0; h < points[0].length; h++){
-						newCloudCenter[h]+=cluster[i].get(j).getImageValue().getImageData()[h];
+						newCloudCenter[h]+=cluster.get(i).get(j).getImageValue().getImageData()[h];
 						temp++;
 					}
 			}
@@ -138,7 +141,7 @@ public class KMean extends AbstractAlgorithms {
 						tempDist=dist;
 					}
 				}
-			cluster[tempCloud].add(newEx);
+			cluster.get(tempCloud).add(newEx);
 		}else{
 			tempCloud=0;
 			double tempDist=0;
@@ -150,12 +153,12 @@ public class KMean extends AbstractAlgorithms {
 						tempDist=dist;
 					}
 				}
-			cluster[tempCloud].add(newEx);
+			cluster.get(tempCloud).add(newEx);
 			}
 		return clusterClass[tempCloud];
 	}
 	
-	public ArrayList<Example>[] getCluster (){
+	public ArrayList<ArrayList<Example>> getCluster (){
 //		ArrayList<Example>[] returnPrototype=null;
 //		int returncount=0;
 //		for (int i = 0; i < points.length; i++){
@@ -170,9 +173,9 @@ public class KMean extends AbstractAlgorithms {
 	public ArrayList<FalseAssigned> checkFalseAssigned(){
 		ArrayList<FalseAssigned> falseList = new ArrayList<FalseAssigned>();
 		for (int i = 0; i < k; i++){
-			for (int j = 0; j < cluster[i].size(); j++){
-				if (cluster[i].get(j).getTargetValue() != clusterClass[i]){
-					falseList.add(new FalseAssigned(cluster[i].get(j), clusterClass[i]));
+			for (int j = 0; j < cluster.get(i).size(); j++){
+				if (cluster.get(i).get(j).getTargetValue() != clusterClass[i]){
+					falseList.add(new FalseAssigned(cluster.get(i).get(j), clusterClass[i]));
 				}
 			}
 		}
@@ -183,9 +186,9 @@ public class KMean extends AbstractAlgorithms {
 		double mse=0;
 		int errorCount = 0;
 		for (int i = 0; i < k; i++){
-			for (int j = 0; j < cluster[i].size(); j++){
-				for (int h = 0; h < cluster[i].get(j).getImageValue().getImageData().length; h++){
-					mse+=Math.pow((clusterCenter[i][h]-cluster[i].get(j).getImageValue().getImageData()[h]),2);
+			for (int j = 0; j < cluster.get(i).size(); j++){
+				for (int h = 0; h < cluster.get(i).get(j).getImageValue().getImageData().length; h++){
+					mse+=Math.pow((clusterCenter[i][h]-cluster.get(i).get(j).getImageValue().getImageData()[h]),2);
 					errorCount++;
 				}
 			}
