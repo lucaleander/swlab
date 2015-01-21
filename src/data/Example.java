@@ -20,4 +20,8 @@ public class Example {
 	public ImageValue getImageValue() {
 		return this.imageValue;
 	}
+	
+	public void setTargetValue(IntTargetValue targetValue){
+		this.intTargetValue = targetValue;
+	}
 }
