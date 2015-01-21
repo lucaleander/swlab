@@ -5,7 +5,7 @@ public class IntTargetValue {
 	private int value;
 	
 	public IntTargetValue(IntTargetDefinition intTargetDefinition, int value) {
-		this.setIntTargetDefinition(intTargetDefinition);
+		this.intTargetDefinition = intTargetDefinition;
 		this.value = value;
 	}
 	
