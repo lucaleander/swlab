@@ -29,7 +29,7 @@ public class MinstConverter extends AbstractConverter {
 		IntTargetValue[] intTargetValues = new IntTargetValue[end - begin];	
 		
 		byte[] b = new byte[1];
-		for(int i = 0; i < end - begin; i++) {
+		for(int i = begin; i < end; i++) {
 			fh.read(b);
 			if(!intTargetDefinition.inRange(b[0] & 0xFF)) {
 				throw new ParserException("integer not in range on position " + i);
@@ -63,7 +63,7 @@ public class MinstConverter extends AbstractConverter {
 		
 		ImageValue[] imageValues = new ImageValue[end - begin];
 		byte[] b = new byte[1];
-		for(int j = 0; j < end - begin; j++) {
+		for(int j = begin; j < end; j++) {
 			int imageData[] = new int[rows*columns];
 			
 			for(int i = 0; i < rows*columns; i++) {
