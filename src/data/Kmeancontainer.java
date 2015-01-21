@@ -21,6 +21,7 @@ public class Kmeancontainer {
         this.count_of_test_per_class = count_of_test_per_class;
         this.count_of_test = sumUp(count_of_test_per_class);
         this.error = error;
+        falses = new ArrayList<Example>();
 
         for (int i=0;i<example.length;i++){
             if (example[i].getTargetValue() == result[i]) falses.add(example[i]);
