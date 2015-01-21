@@ -31,7 +31,6 @@ public class KNN extends AbstractAlgorithms {
 	/*
 	 * Creates a Manhattan distance KDTree and a Euclidian distance Tree
 	 */
-	//TODO add example without label
 	
 	private void IndexTree() {
 		double[][] tempPoints = new double[points.length][points[0].length];
@@ -89,9 +88,9 @@ public class KNN extends AbstractAlgorithms {
 		return pointclass;
 	}
 	
-	public int mismatchedObjects(){
-		return 0;
-	}
+//	public int checkFalseAssigned(){
+//		return 0;
+//	}
 	
 	
 
