@@ -29,9 +29,9 @@ public class MinstConverter extends AbstractConverter {
 		}
 		
 		IntTargetValue[] intTargetValues = new IntTargetValue[size];	
-		
+		if (begin > 0){
 		fh.read(new byte[begin-1]);
-		
+		}
 		byte[] b = new byte[1];
 		for(int i = 0; i < size; i++) {
 			fh.read(b);
@@ -67,8 +67,9 @@ public class MinstConverter extends AbstractConverter {
 		}
 		
 		ImageValue[] imageValues = new ImageValue[size];
-		
-		fh.read(new byte[(begin-1)*rows*columns]);
+		if (begin > 0){
+			fh.read(new byte[(begin-1)*rows*columns]);
+			}
 		
 		byte[] b = new byte[1];
 		for(int i = 0; i < size; i++) {
