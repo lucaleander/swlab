@@ -19,6 +19,7 @@ public class KNN extends AbstractAlgorithms {
 	public KNN (ArrayList<Example> data, int k){
 		ArrayList<Example> temp = data;
 		points = new int[temp.size()][temp.get(0).getImageValue().getImageData().length];
+		values = new int[temp.size()];
 		for (int i = 0; i < temp.size(); i++){
 			points[i] = temp.get(i).getImageValue().getImageData();
 			values[i] = temp.get(i).getTargetValue();
