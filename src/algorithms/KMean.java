@@ -28,6 +28,7 @@ public class KMean extends AbstractAlgorithms {
 			values[i] = temp.get(i).getTargetValue();
 		}
 		this.k=k;
+		cluster = (ArrayList<Example>[])new ArrayList[k];
 		clusterCenter = new double[k][points[0].length];
 		clusterClass = new int[k];
 	}
