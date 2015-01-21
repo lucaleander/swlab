@@ -7,7 +7,6 @@ import java.util.List;
 
 import data.Example;
 import data.ImageValue;
-import data.LearningData;
 import algorithms.KdTree.Entry;
 
 public class KNN extends AbstractAlgorithms {
@@ -17,8 +16,8 @@ public class KNN extends AbstractAlgorithms {
 	private KdTree<Integer> sqrEuclidTree;
 	private int pointDimension;
 	
-	public KNN (LearningData data, int k){
-		ArrayList<Example> temp = data.getExamples();
+	public KNN (ArrayList<Example> data, int k){
+		ArrayList<Example> temp = data;
 		points = new int[temp.size()][temp.get(0).getImageValue().getImageData().length];
 		for (int i = 0; i < temp.size(); i++){
 			points[i] = temp.get(i).getImageValue().getImageData();
