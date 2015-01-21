@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.Example;
+import data.ImageValue;
 import data.LearningData;
 import algorithms.KdTree.Entry;
 
@@ -54,8 +55,12 @@ public class KNN extends AbstractAlgorithms {
 	 * Searches the k nearest neighbors to point in the Euclidian distance Tree
 	 */
 	
-	public int KNNEuclid (double[] point){
+	public int KNNEuclid (ImageValue newValue){
 	int pointclass=0;
+	double[] point = new double[newValue.getImageData().length];
+	for (int i = 0; i < newValue.getImageData().length; i++){
+		point[i]=(double) newValue.getImageData()[i];
+	}
 	//List <Integer> classes = new ArrayList<Integer>();
 	int[] classes;
 	List<Entry<Integer>> classesEntry;
@@ -73,8 +78,12 @@ public class KNN extends AbstractAlgorithms {
 	 * Searches the k nearest neighbors to point in the Manhattan distance Tree
 	 */
 
-	public int KNNManhattan(double[] point){
+	public int KNNManhattan(ImageValue newValue){
 		int pointclass=0;
+		double[] point = new double[newValue.getImageData().length];
+		for (int i = 0; i < newValue.getImageData().length; i++){
+			point[i]=(double) newValue.getImageData()[i];
+		}
 		int[] classes;
 		List<Entry<Integer>> classesEntry;
 		classesEntry = manhattanTree.nearestNeighbor(point, k, false);

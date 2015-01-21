@@ -30,7 +30,6 @@ public class KMean extends AbstractAlgorithms {
 		}
 		this.k=k;
 		prototypeCenter = new double[k][points[0].length];
-		//prototypeAssigned = new int [points.length];
 		prototypeClass = new int[k];
 	}
 	

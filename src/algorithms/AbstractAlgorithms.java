@@ -1,7 +1,5 @@
 package algorithms;
 
-import java.util.List;
-
 public abstract class AbstractAlgorithms {
 	protected int points[][];
 	protected int values[];
