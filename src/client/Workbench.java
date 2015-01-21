@@ -80,6 +80,11 @@ public class Workbench {
         learningData = db.getLearningData(name);
     }
     
+    public void exportPerst(String name) {
+        PerstLearningData db = PerstLearningData.getInstance();
+        db.addLearningData(name, learningData);
+    }
+    
     public static void main(String[] args) {
     	Workbench wb = new Workbench();
     	try {

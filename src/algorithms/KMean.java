@@ -39,26 +39,31 @@ public class KMean extends AbstractAlgorithms {
 	public void kmeanAlgorithm(boolean euclid){
 		int randomIndex;
 		this.euclid = euclid;
-		int[] checkRepeat = new int[k];
-		double[] tempCenter = new double[points[0].length];
+		ArrayList<Integer> checkRepeat = new ArrayList<Integer>();
 		Random generator = new Random();
 		for (int i = 0; i < k; i++){
+			double[] tempCenter = new double[points[0].length];
 			randomIndex = generator.nextInt(points.length);
-			while (Arrays.asList(checkRepeat).contains(randomIndex)==true){
+			while (checkRepeat.contains(randomIndex)==true){
 				randomIndex = generator.nextInt(points.length);
 			}
-			for (int j = 0; j < points[0].length; j++){
-				tempCenter[j] = (double) points[randomIndex][j];
+			checkRepeat.add(randomIndex);
+			for (int j = 0; j < points[i].length; j++){
+				tempCenter[j] =  points[randomIndex][j];
 			}
+
 			clusterCenter[i]=tempCenter;
 		}
+//		for (int y = 0; y < clusterCenter.length-1; y++){
+//			System.out.println(clusterCenter[y]==clusterCenter[y+1]);
+//		}
 		if (euclid == true){
-			for (int j = 0; j < 10; j++){
+			for (int j = 0; j < 20; j++){
 				computeExpectationEuclid(points);
 				maximization();
 			}
 		} else {
-			for (int j = 0; j < 10; j++){
+			for (int j = 0; j < 20; j++){
 				computeExpectationManhattan(points);
 				maximization();
 			}
@@ -67,18 +72,19 @@ public class KMean extends AbstractAlgorithms {
 	
 	private void computeExpectationEuclid(int[][] points){
 		int tempCloud=0;
-		double tempDist=0;
-		double dist;
+		double dist = 0;
 		for (int x = 0; x < cluster.size(); x++){
 			cluster.get(x).clear();
 		}
 		for (int i = 0; i < points.length; i++){
+			double tempDist= -1;
 			for (int j = 0; j < k; j++){
 				dist = computeEuclidDistance(points[i], clusterCenter[j]);
-				if (!(tempDist < dist)){
+				if (tempDist < 0 || dist < tempDist){
 					tempCloud=j;
 					tempDist=dist;
 				}
+				dist = 0;
 			}
 			cluster.get(tempCloud).add(temp.get(i));
 		}
@@ -86,19 +92,19 @@ public class KMean extends AbstractAlgorithms {
 	
 	private void computeExpectationManhattan(int[][] points){
 		int tempCloud=0;
-		double tempDist=0;
-		double dist;
-
+		double dist = 0;
 		for (int x = 0; x < cluster.size(); x++){
 			cluster.get(x).clear();
 		}
 		for (int i = 0; i < points.length; i++){
+			double tempDist= -1;
 			for (int j = 0; j < k; j++){
 				dist = computeManhattanDistance(points[i], clusterCenter[j]);
-				if (!(tempDist < dist)){
+				if (tempDist < 0 || dist < tempDist){
 					tempCloud=j;
 					tempDist=dist;
 				}
+				dist = 0;
 			}
 			cluster.get(tempCloud).add(temp.get(i));
 		}
@@ -107,20 +113,20 @@ public class KMean extends AbstractAlgorithms {
 	
 	private void maximization(){
 		double[] newCloudCenter;
-		int temp;
-		newCloudCenter = new double[points[0].length];
+		int temp = 0;
 		for (int i = 0; i < k; i++){
-			temp=0;
-			for (int x = 0; x < points[0].length; x++){
-				newCloudCenter[x]=0;
-			}
+			newCloudCenter = new double[points[0].length];
 			for (int j = 0; j < cluster.get(i).size(); j++){
 					for (int h = 0; h < points[0].length; h++){
 						newCloudCenter[h]+=cluster.get(i).get(j).getImageValue().getImageData()[h];
-						temp++;
 					}
 			}
 		for (int y = 0; y < newCloudCenter.length; y++){
+			if (cluster.get(i).size() == 0){
+				temp = 1;
+			} else {
+				temp = cluster.get(i).size();
+			}
 			newCloudCenter[y]=newCloudCenter[y]/temp;
 		}
 		clusterCenter[i]=newCloudCenter;

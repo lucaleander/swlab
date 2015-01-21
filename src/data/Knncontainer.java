@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by luca on 21.01.15.
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 public class Knncontainer {
     private Example[] example;
     private ArrayList<Example> falses = new ArrayList<Example>();
+    private ArrayList<Integer> shouldbe = new ArrayList<Integer>();
     private int[] result, count_of_learn_per_class, count_of_test_per_class;
     private int count_of_learn, count_of_test, error;
 
@@ -21,7 +23,10 @@ public class Knncontainer {
         this.error = error;
 
         for (int i=0;i<example.length;i++){
-            if (example[i].getTargetValue() == result[i]) falses.add(example[i]);
+            if (example[i].getTargetValue() != result[i]) {
+                falses.add(example[i]);
+                shouldbe.add(result[i]);
+            }
         }
     }
 
@@ -45,6 +50,17 @@ public class Knncontainer {
         return count_of_learn;
     }
 
+    public int[] getShouldbe() {
+            int[] ret = new int[shouldbe.size()];
+            Iterator<Integer> iterator = shouldbe.iterator();
+            for (int i = 0; i < ret.length; i++)
+            {
+                ret[i] = iterator.next().intValue();
+            }
+
+        return ret;
+    }
+
     public int getCount_of_test() {
         return count_of_test;
     }
@@ -60,7 +76,8 @@ public class Knncontainer {
         return result;
     }
 
-    public ArrayList<Example> getFalses() {
-        return falses;
+    public Example[] getFalses() {
+        return falses.toArray(new Example[falses.size()]);
+        //return falses;
     }
 }

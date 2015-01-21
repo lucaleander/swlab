@@ -31,8 +31,8 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
 
     public PanelOfWrongs(JTabbedPane parent,Example[] exs,int[] res) throws IOException {
         this.parent = parent;
-        this.exs = exs.clone();
-        this.res = res.clone();
+        this.exs = exs;
+        this.res = res;
         setLayout(new GridLayout(0, 1));
         JPanel outer = new JPanel(new GridLayout(0,2));
         tf1 = new JTextField();
@@ -49,7 +49,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         btn_next.addActionListener(this);
         outer.add(btn_skip);
         outer.add(btn_next);
-        imgp_frame.add(imgp);
+        //imgp_frame.add(imgp);
         add(imgp_frame);
         add(outer);
         parent.add(this,"Wrongly assigned");
@@ -59,7 +59,21 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
         //System.out.println((exs[i].getImageValue().getImageData()).length+" should be "+(28*28));
         if (null != imgp) imgp_frame.remove(imgp);
+<<<<<<< HEAD
+        //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
+        //System.out.println(Arrays.toString(exs[0].getImageValue().getImageData()));
+
+
+        imgp = new ImagePanel(exs[i].getImageValue()); //exs[i].getImageValue());
+=======
         imgp = new ImagePanel(exs[i].getImageValue());
+//        try {
+//			imgp = new ImagePanel(PngConverter.loadImage(new ImageDefinition(28, 28), new File("./data/8.png")));
+//		} catch (ParserException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+>>>>>>> fdf8f8393dd858362eca5011035c3a14cca3939f
         imgp_frame.add(imgp);
         validate();
 
@@ -70,6 +84,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         }*/
         //System.out.println("This:"+exs[i].getTargetValue());
         tf1.setText(Integer.toString(exs[i].getTargetValue()));
+        System.out.println(res[i]);
         tf2.setText(Integer.toString(res[i]));
         if (i+1 >= exs.length || i+1 >= res.length ) parent.remove(this); else i++;
     }
