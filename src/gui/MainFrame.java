@@ -231,8 +231,8 @@ public class MainFrame extends JFrame implements ActionListener{
             if (cb_algo.getSelectedIndex() == 0) {
                 Knncontainer result = wbench.executeknn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
                 try {
-                    new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
-                    //new PanelOfWrongs(tabbedPane, result.getFalses().toArray(new Example[result.getFalses().size()]), result.getShouldbe());
+                    //new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                    new PanelOfWrongs(tabbedPane, result.getFalses(), result.getShouldbe());
 
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -240,7 +240,7 @@ public class MainFrame extends JFrame implements ActionListener{
                 ta_stats.append(
                         "Test finished!\n" +
                         "KNN learned with "+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
-                        "and classified "+result.getFalses().size()+" wrong with a mean squared error of: "+result.getError()+"\n"+
+                        "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                         result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+" objects were used in the test.\n"+
                         "Distance was measured the "+diststr+" way.");
                 tabbedPane.addTab("Stats", statspanel);
@@ -307,6 +307,7 @@ public class MainFrame extends JFrame implements ActionListener{
                     clusterframe.remove(clusterimgp);
                     clusterimgp = new ImagePanel(cluster_list.get(cluster_i).get(cluster_j).getImageValue());
                     clusterframe.add(clusterimgp);
+                    clusterframe.validate();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

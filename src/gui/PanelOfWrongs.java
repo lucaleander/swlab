@@ -31,8 +31,8 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
 
     public PanelOfWrongs(JTabbedPane parent,Example[] exs,int[] res) throws IOException {
         this.parent = parent;
-        this.exs = exs.clone();
-        this.res = res.clone();
+        this.exs = exs;
+        this.res = res;
         setLayout(new GridLayout(0, 1));
         JPanel outer = new JPanel(new GridLayout(0,2));
         tf1 = new JTextField();
@@ -49,7 +49,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         btn_next.addActionListener(this);
         outer.add(btn_skip);
         outer.add(btn_next);
-        imgp_frame.add(imgp);
+        //imgp_frame.add(imgp);
         add(imgp_frame);
         add(outer);
         parent.add(this,"Wrongly assigned");
@@ -59,7 +59,11 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
         //System.out.println((exs[i].getImageValue().getImageData()).length+" should be "+(28*28));
         if (null != imgp) imgp_frame.remove(imgp);
-        imgp = new ImagePanel(exs[i].getImageValue());
+        //System.out.println(Arrays.toString(exs[i].getImageValue().getImageData()));
+        //System.out.println(Arrays.toString(exs[0].getImageValue().getImageData()));
+
+
+        imgp = new ImagePanel(exs[i].getImageValue()); //exs[i].getImageValue());
         imgp_frame.add(imgp);
         validate();
 

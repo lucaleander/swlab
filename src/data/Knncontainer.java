@@ -23,9 +23,9 @@ public class Knncontainer {
         this.error = error;
 
         for (int i=0;i<example.length;i++){
-            if (example[i].getTargetValue() == result[i]) {
+            if (example[i].getTargetValue() != result[i]) {
                 falses.add(example[i]);
-                shouldbe.add(example[i].getTargetValue());
+                shouldbe.add(result[i]);
             }
         }
     }
@@ -57,6 +57,7 @@ public class Knncontainer {
             {
                 ret[i] = iterator.next().intValue();
             }
+
         return ret;
     }
 
@@ -75,7 +76,8 @@ public class Knncontainer {
         return result;
     }
 
-    public ArrayList<Example> getFalses() {
-        return falses;
+    public Example[] getFalses() {
+        return falses.toArray(new Example[falses.size()]);
+        //return falses;
     }
 }
