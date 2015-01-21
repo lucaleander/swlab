@@ -9,13 +9,11 @@ import java.util.ArrayList;
 
 import algorithms.KMean;
 import algorithms.KNN;
-import com.sun.xml.internal.bind.v2.TODO;
 import converter.CsvConverter;
 import converter.MinstConverter;
 import converter.ParserException;
 import converter.PngConverter;
 import data.*;
-import gui.ImagePanel;
 
 public class Workbench {
     private LearningData learningData;
