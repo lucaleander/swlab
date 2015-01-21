@@ -58,12 +58,12 @@ public class KMean extends AbstractAlgorithms {
 //			System.out.println(clusterCenter[y]==clusterCenter[y+1]);
 //		}
 		if (euclid == true){
-			for (int j = 0; j < 10; j++){
+			for (int j = 0; j < 20; j++){
 				computeExpectationEuclid(points);
 				maximization();
 			}
 		} else {
-			for (int j = 0; j < 10; j++){
+			for (int j = 0; j < 20; j++){
 				computeExpectationManhattan(points);
 				maximization();
 			}

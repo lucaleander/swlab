@@ -60,6 +60,12 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         //System.out.println((exs[i].getImageValue().getImageData()).length+" should be "+(28*28));
         if (null != imgp) imgp_frame.remove(imgp);
         imgp = new ImagePanel(exs[i].getImageValue());
+//        try {
+//			imgp = new ImagePanel(PngConverter.loadImage(new ImageDefinition(28, 28), new File("./data/8.png")));
+//		} catch (ParserException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         imgp_frame.add(imgp);
         validate();
 
@@ -70,6 +76,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         }*/
         //System.out.println("This:"+exs[i].getTargetValue());
         tf1.setText(Integer.toString(exs[i].getTargetValue()));
+        System.out.println(res[i]);
         tf2.setText(Integer.toString(res[i]));
         if (i+1 >= exs.length || i+1 >= res.length ) parent.remove(this); else i++;
     }
