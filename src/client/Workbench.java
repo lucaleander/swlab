@@ -24,7 +24,8 @@ public class Workbench {
     }
 
     public void importMinst(File labelFile, File imageFile, int start, int size) throws IOException, ParserException {
-        this.learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), start, start + size, labelFile, imageFile);
+        this.learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), start, size, labelFile, imageFile);
+        System.out.println(learningData.getExamples().get(0).getTargetValue());
     }
 
     public void importPng(File file) throws IOException, ParserException {
@@ -89,7 +90,7 @@ public class Workbench {
     	Workbench wb = new Workbench();
     	try {
     		wb.importMinst(new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"), 0, 200);
-    		wb.kmeanlearn(20, 10, true);
+    		wb.executeknn(20, 10, true);
 		} catch (IOException | ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

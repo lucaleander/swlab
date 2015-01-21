@@ -14,7 +14,9 @@ import data.Schema;
 public class MinstConverter extends AbstractConverter {
 
 	@SuppressWarnings("resource")
-	public static IntTargetValue[] loadLabelFile(IntTargetDefinition intTargetDefinition, int begin, int end, File file) throws IOException, ParserException {
+	public static IntTargetValue[] loadLabelFile(IntTargetDefinition intTargetDefinition, int begin, int size, File file) throws IOException, ParserException {
+		System.out.println(begin + " " + size);
+		
 		FileInputStream fh = new FileInputStream(file);
 		
 		byte[] bs = new byte[4];
@@ -22,14 +24,17 @@ public class MinstConverter extends AbstractConverter {
 		fh.read(bs); // number of items
 		int numOfLabels = java.nio.ByteBuffer.wrap(bs).getInt();
 		
-		if(end > numOfLabels) {
+		if(begin+size > numOfLabels) {
 			throw new ParserException("parameter \"end\" is out of bound");
 		}
 		
-		IntTargetValue[] intTargetValues = new IntTargetValue[end - begin];	
+		IntTargetValue[] intTargetValues = new IntTargetValue[size];	
 		
 		byte[] b = new byte[1];
-		for(int i = begin; i < end; i++) {
+		for(int i = 0; i < begin-1; i++) {
+			fh.read(b);
+		}
+		for(int i = 0; i < size; i++) {
 			fh.read(b);
 			if(!intTargetDefinition.inRange(b[0] & 0xFF)) {
 				throw new ParserException("integer not in range on position " + i);
@@ -41,7 +46,8 @@ public class MinstConverter extends AbstractConverter {
 	}
 	
 	@SuppressWarnings("resource")
-	public static ImageValue[] loadImageFile(ImageDefinition imageDefinition, int begin, int end, File file) throws IOException, ParserException {
+	public static ImageValue[] loadImageFile(ImageDefinition imageDefinition, int begin, int size, File file) throws IOException, ParserException {
+		System.out.println(begin + " " + size);
 		FileInputStream fh = new FileInputStream(file);
 		
 		byte[] bs = new byte[4];
@@ -53,7 +59,7 @@ public class MinstConverter extends AbstractConverter {
 		fh.read(bs); // number of columns
 		int columns = java.nio.ByteBuffer.wrap(bs).getInt();
 		
-		if(end > numOfImages) {
+		if(begin+size > numOfImages) {
 			throw new ParserException("parameter \"end\" is out of bound");
 		}
 		
@@ -61,9 +67,12 @@ public class MinstConverter extends AbstractConverter {
 			throw new ParserException("image size invalid. Expected " + imageDefinition.getRowLength() + "x" + imageDefinition.getColumnLength() + ", got" + rows + "x" + columns);
 		}
 		
-		ImageValue[] imageValues = new ImageValue[end - begin];
+		ImageValue[] imageValues = new ImageValue[size];
 		byte[] b = new byte[1];
-		for(int j = begin; j < end; j++) {
+		for(int i = 0; i < begin-1; i++) {
+			fh.read(b);
+		}
+		for(int j = 0; j < size; j++) {
 			int imageData[] = new int[rows*columns];
 			
 			for(int i = 0; i < rows*columns; i++) {
