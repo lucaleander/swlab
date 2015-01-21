@@ -41,7 +41,6 @@ public class Workbench {
     public Knncontainer executeknn(int k, int n, boolean dist) {
         KNN knn = new KNN(new ArrayList<Example>(learningData.getExamples().subList(n, learningData.getExamples().size())), k);
         int[] resi = new int[n];
-        System.out.println(n);
         Example[] rese = new Example[n];
         for (int i=0; i < n; i++){
         	
@@ -78,6 +77,17 @@ public class Workbench {
     public void importPerst(String name) {
         PerstLearningData db = PerstLearningData.getInstance();
         learningData = db.getLearningData(name);
+    }
+    
+    public static void main(String[] args) {
+    	Workbench wb = new Workbench();
+    	try {
+			wb.importMinst(new File("./data/train-labels.idx1-ubyte"), new File("./data/train-images.idx3-ubyte"), 0, 200);
+			Knncontainer knncontainer = wb.executeknn(20, 10, true);
+		} catch (IOException | ParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
 
