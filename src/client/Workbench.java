@@ -51,7 +51,7 @@ public class Workbench {
             rese[i] = example;
             resi[i] = ret;
         }
-        return new Knncontainer(rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0, n-1))),0);
+        return new Knncontainer(rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0, n))),0);
     }
     public File getPng (ImageValue img) {
         return new File("/home/luca/test.png");
@@ -72,7 +72,7 @@ public class Workbench {
             rese[i] = example;
             resi[i] = kmean.addPoint(example);
         }
-        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n-1))),0);
+        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),0);
     }
     public void importPerst(String name) {
         PerstLearningData db = PerstLearningData.getInstance();
