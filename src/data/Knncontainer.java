@@ -1,21 +1,36 @@
 package data;
 
+import java.util.ArrayList;
+
 /**
  * Created by luca on 21.01.15.
  */
 public class Knncontainer {
     private Example[] example;
+    private ArrayList<Example> falses = new ArrayList<Example>();
     private int[] result, count_of_learn_per_class, count_of_test_per_class;
     private int count_of_learn, count_of_test, error;
 
-    public Knncontainer(Example[] example, int[] result, int[] count_of_learn_per_class, int count_of_learn, int[] count_of_test_per_class, int count_of_test, int error) {
+    public Knncontainer(Example[] example, int[] result, int[] count_of_learn_per_class, int[] count_of_test_per_class, int error) {
         this.example = example;
         this.result = result;
         this.count_of_learn_per_class = count_of_learn_per_class;
-        this.count_of_learn = count_of_learn;
+        this.count_of_learn = sumUp(count_of_learn_per_class);
         this.count_of_test_per_class = count_of_test_per_class;
-        this.count_of_test = count_of_test;
+        this.count_of_test = sumUp(count_of_test_per_class);
         this.error = error;
+
+        for (int i=0;i<example.length;i++){
+            if (example[i].getTargetValue() == result[i]) falses.add(example[i]);
+        }
+    }
+
+    private int sumUp (int[] input){
+        int sum = 0;
+        for (int i=0; i<input.length;i++){
+            sum += input[i];
+        }
+        return sum;
     }
 
     public int getError() {
@@ -43,5 +58,9 @@ public class Knncontainer {
     }
     public int[] getResult(){
         return result;
+    }
+
+    public ArrayList<Example> getFalses() {
+        return falses;
     }
 }

@@ -45,7 +45,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         parent.setSelectedComponent(this);
     }
     private void nextPic(){
-        imgp = new ImagePanel(PngConverter.getPng(exs[i].getImageValue().getImageData()));
+        //imgp = new ImagePanel(PngConverter.getPng(exs[i].getImageValue().getImageData()));
         tf1.setText(new Integer(exs[i].getTargetValue()).toString());
         tf2.setText(new Integer(res[i]).toString());
         if (i+1 >= exs.length || i+1 >= res.length ) parent.remove(this); else i++;

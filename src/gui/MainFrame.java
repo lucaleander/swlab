@@ -12,9 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import client.Workbench;
 import converter.ParserException;
+import data.Example;
+import data.Kmeancontainer;
 import data.Knncontainer;
 
 public class MainFrame extends JFrame implements ActionListener{
@@ -26,9 +29,14 @@ public class MainFrame extends JFrame implements ActionListener{
     JTabbedPane tabbedPane;
     File file_labels, file_images, importedPNG;
     JTextField tf_k, tf_n, tf_size, tf_start;
-    JComboBox cb_algo, cb_dist,cb_pngimport;
+    JComboBox cb_algo, cb_dist,cb_pngimport, cb_cluster;
     JPanel setuppanel, pngpanel, clusterpanel,importpanel,exportpanel,statspanel;
     JTextArea ta_stats;
+    ArrayList<Example>[] cluster_list;
+    int[] cluster_labels;
+    int cluster_i, cluster_j;
+    ImagePanel clusterimgp;
+
 
 
     public MainFrame() {
@@ -78,7 +86,7 @@ public class MainFrame extends JFrame implements ActionListener{
         pack();
     }
 
-    private void dialogPNG (File file) {
+    private void dialogPNG (File file) throws IOException {
         tabbedPane.remove(pngpanel);
 
         JPanel png_import_outer = new JPanel();
@@ -104,7 +112,7 @@ public class MainFrame extends JFrame implements ActionListener{
         pngpanel.add(png_import_outer);
     }
 
-    private void createClusterPanel (/*File file*/) {
+    private void createClusterPanel (ArrayList<Example>[] cluster_list) throws IOException {
         /* WIP */
         tabbedPane.remove(clusterpanel);
 
@@ -112,10 +120,13 @@ public class MainFrame extends JFrame implements ActionListener{
         cluster_outer.setLayout(new GridLayout(0,1));
         JPanel cluster = new JPanel();
         cluster.setLayout(new GridLayout(0,2));
-        //ImagePanel imgp = new ImagePanel(file);
+        cluster_i = 0;
+        cluster_j = 0;
+        clusterimgp = new ImagePanel(cluster_list[cluster_i].get(cluster_j).getImageValue());
         cluster.add(new JLabel("Assign class to this cluster"));
         String[] classes = {"0","1","2","3","4","5","6","7","8","9"};
-        cluster.add(new JComboBox(classes));
+        cb_cluster = new JComboBox(classes);
+        cluster.add(cb_cluster);
         btn_cluster_more = new JButton("Show me more");
         btn_cluster_more.addActionListener(this);
         btn_cluster = new JButton("That's it!");
@@ -156,7 +167,7 @@ public class MainFrame extends JFrame implements ActionListener{
         setuppanel.add(cb_dist);
 
         tf_n = new JTextField();
-        setuppanel.add(new JLabel("Set size per class"));
+        setuppanel.add(new JLabel("How many test datas?"));
         setuppanel.add(tf_n);
 
         fcPNG = new JFileChooser();
@@ -197,8 +208,12 @@ public class MainFrame extends JFrame implements ActionListener{
             int returnVal = fcPNG.showOpenDialog(MainFrame.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 importedPNG = fcPNG.getSelectedFile();
-                 dialogPNG(importedPNG);
-                 tabbedPane.add("Import PNG",pngpanel);
+                try {
+                    dialogPNG(importedPNG);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                tabbedPane.add("Import PNG",pngpanel);
                 tabbedPane.setSelectedComponent(pngpanel);
             }
         } else if (e.getSource() == btn_execute && cb_algo.getSelectedIndex() == 1) {
@@ -211,14 +226,19 @@ public class MainFrame extends JFrame implements ActionListener{
                 ta_stats.append(
                         "Test finished!\n" +
                         "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
-                        "and classified "+result.getExample().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
+                        "and classified "+result.getFalses().size()+" wrong with a mean squared error of: "+result.getError()+"\n"+
                         result.getCount_of_test()+" "+result.getCount_of_test_per_class()+" objects were used in the test.\n"+
                         "Distance was measured the "+diststr+" way.");
                 tabbedPane.addTab("Stats", statspanel);
 
             } else if (cb_algo.getSelectedIndex() == 0) {
-                wbench.executekmean(Integer.parseInt(tf_k.getText()),Integer.parseInt(tf_n.getText()),dist);
-                createClusterPanel();
+                ArrayList<Example>[] ret;
+                ret = wbench.kmeanlearn(Integer.parseInt(tf_k.getText()), Integer.parseInt(tf_n.getText()), dist);
+                try {
+                    createClusterPanel(ret);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 tabbedPane.add("Cluster", clusterpanel);
                 tabbedPane.setSelectedComponent(clusterpanel);
             }
@@ -256,7 +276,43 @@ public class MainFrame extends JFrame implements ActionListener{
                 e1.printStackTrace();
             }
         } else if (e.getSource() == btn_cluster) {
-            tabbedPane.remove(clusterpanel);
+            cluster_labels[cluster_i] = Integer.getInteger(cb_cluster.getSelectedItem().toString());
+            if(cluster_i+1 >= cluster_list.length){
+                tabbedPane.remove(clusterpanel);
+                Kmeancontainer result = wbench.kmeantest(cluster_labels,Integer.parseInt(tf_n.getText()));
+                new PanelOfWrongs(tabbedPane, result.getExample(), result.getResult());
+                ta_stats.append(
+                        "Test finished!\n" +
+                                "KNN learned with "+result.getCount_of_learn()+" "+result.getCount_of_learn_per_class()+"\n"+
+                                "and classified "+result+" wrong with a mean squared error of: "+result.getError()+"\n"+
+                                result.getCount_of_test()+" "+result.getCount_of_test_per_class()+" objects were used in the test.\n"+
+                                "Distance was measured the "+" way.");
+            } else if (cluster_j+1 <= cluster_list[cluster_i].size()){
+                cluster_i++;
+                cluster_j = 0;
+                try {
+                    clusterimgp = new ImagePanel(cluster_list[cluster_i].get(cluster_j).getImageValue());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+
+
+
+        } else if (e.getSource() == btn_cluster_more) {
+            cluster_labels[cluster_i] = Integer.getInteger(cb_cluster.getSelectedItem().toString());
+            if (cluster_j+1 <= cluster_list[cluster_i].size()){
+                cluster_j++;
+                try {
+                    clusterimgp = new ImagePanel(cluster_list[cluster_i].get(cluster_j).getImageValue());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+
+
 
         }
     }

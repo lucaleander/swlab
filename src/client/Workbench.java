@@ -5,6 +5,7 @@ package client;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import algorithms.KMean;
 import algorithms.KNN;
@@ -18,6 +19,7 @@ import gui.ImagePanel;
 
 public class Workbench {
     private LearningData learningData;
+    private KMean kmean;
 
     public Workbench() {
     }
@@ -38,27 +40,45 @@ public class Workbench {
         CsvConverter.dumpFile(file, learningData);
     }
 
-    public Knncontainer executeknn(int k, int nperclass, boolean dist) {
-        KNN knn = new KNN(learningData, k);
-        final int x = 10;
+    public Knncontainer executeknn(int k, int n, boolean dist) {
+        final int x = n;
+        KNN knn = new KNN(new ArrayList<Example>(learningData.getExamples().subList(x, learningData.getExamples().size())), k);
         int[] resi = new int[x];
         Example[] rese = new Example[x];
         for (int i=0; i < x; i++){
-            Example example = learningData.getExamples().get(i);
+            Example example = learningData.getExamples().subList(0, i).get(i);
             int ret;
             if (dist) ret = knn.KNNEuclid(example.getImageValue());
             else ret = knn.KNNManhattan(example.getImageValue());
             rese[i] = example;
             resi[i] = ret;
         }
-        int[] temp = {0};
-        return new Knncontainer(rese,resi,temp,0,temp,0,0);
+        return new Knncontainer(rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(x, learningData.getExamples().size()))),0);
+    }
+    public File getPng (ImageValue img) {
+        return new File("/home/luca/test.png");
     }
 
-    public int[][] executekmean(int k, int nperclass, boolean dist) {
-        KMean kmean = new KMean(learningData, k);
+    //KMean: 1. learn 2. assign cluster 3. addTestdata 4. show wrongs
+    public ArrayList<Example>[] kmeanlearn(int k, int n, boolean dist) {
+        kmean = new KMean(new ArrayList<Example>(learningData.getExamples().subList(n, learningData.getExamples().size())), k);
         kmean.kmeanAlgorithm(dist);
-        return kmean.checkFalseAssigned();
+        return kmean.getCluster();
+    }
+    public Kmeancontainer kmeantest(int[] clusterlabels, int n) {
+        final int x = n;
+        int[] resi = new int[x];
+        Example[] rese = new Example[x];
+        for (int i=0; i < x; i++){
+            Example example = learningData.getExamples().subList(0,i).get(i);
+            rese[i] = example;
+            resi[i] = kmean.addPoint(example);
+        }
+        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(x, learningData.getExamples().size()))),0);
+    }
+    public void importPerst(String name) {
+        PerstLearningData db = PerstLearningData.getInstance();
+        learningData = db.getLearningData(name);
     }
 }
 
