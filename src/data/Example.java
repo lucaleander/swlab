@@ -27,6 +27,19 @@ public class Example {
 		return this.imageValue;
 	}
 	
+	public static int[] getClassesByCount(Example[] examples) {
+		if(examples.length == 0) {
+			return null;
+		}
+		
+		int[] classes = new int[examples[0].getIntTargetDefinition().getClasses()];
+		for(int i = 0; i < examples.length; i++) {
+			classes[examples[i].getTargetValue()] += 1;
+		}
+		
+		return classes;
+	}
+	
 	public static int[] getClassesByCount(ArrayList<Example> examples) {
 		if(examples.size() == 0) {
 			return null;
