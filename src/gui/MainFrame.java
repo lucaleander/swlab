@@ -329,7 +329,7 @@ public class MainFrame extends JFrame implements ActionListener{
                                 "KMean learned with k= "+tf_k.toString()+" and\n"+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                                 "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                                 result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
-                                "Distance was measured the "+cb_dist.getSelectedItem().toString()+" way.\n\n\n");
+                                "Distance was measured the "+cb_dist.getSelectedItem().toString()+" way.\nThe following learn data was assigned to from clusters:\n"+result.getFalsesLearn().length+Arrays.toString(Example.getClassesByCount(result.getFalsesLearn()))+"\n\n\n");
             }
 
 
