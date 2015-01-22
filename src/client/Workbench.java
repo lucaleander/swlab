@@ -6,6 +6,7 @@ package client;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import algorithms.FalseAssigned;
 import algorithms.KMean;
@@ -66,14 +67,24 @@ public class Workbench {
         return kmean.getCluster();
     }
     public Kmeancontainer kmeantest(int[] clusterlabels, int n) {
-       
+       System.out.println("LOOK HERE: "+Arrays.toString(clusterlabels));
+        int index = 0;
+        for (int c:clusterlabels){
+            kmean.assignClusterClass(index,c);
+            index++;
+        }
         int[] resi = new int[n];
         Example[] rese = new Example[n];
         for (int i=0; i < n; i++){
             Example example = learningData.getExamples().subList(0,n).get(i);
             rese[i] = example;
             resi[i] = kmean.addPoint(example);
+            System.out.println("meensch:  "+resi[i]);
+
         }
+        System.out.println("LOOK HERE also: "+Arrays.toString(rese));
+        System.out.println("LOOK HERE also: "+Arrays.toString(resi));
+
         return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),0);
         }
     public void importPerst(String name) {

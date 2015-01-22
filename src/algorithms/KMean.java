@@ -133,7 +133,7 @@ public class KMean extends AbstractAlgorithms {
 		}		
 	}
 	
-	public void assignPrototypeClass(int prototypeNum, int newclass){
+	public void assignClusterClass(int prototypeNum, int newclass){
 		clusterClass[prototypeNum]=newclass;
 	}
 	
@@ -146,7 +146,7 @@ public class KMean extends AbstractAlgorithms {
 			double dist;
 				for (int j = 0; j < k; j++){
 					dist = computeEuclidDistance(newValue.getImageData(), clusterCenter[j]);
-					if (!(tempDist < dist)){
+					if (tempDist < dist){
 						tempCloud=j;
 						tempDist=dist;
 					}
@@ -158,7 +158,7 @@ public class KMean extends AbstractAlgorithms {
 			double dist;
 				for (int j = 0; j < k; j++){
 					dist = computeManhattanDistance(newValue.getImageData(), clusterCenter[j]);
-					if (!(tempDist < dist)){
+					if (tempDist < dist){
 						tempCloud=j;
 						tempDist=dist;
 					}
