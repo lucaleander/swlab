@@ -42,10 +42,11 @@ public class KNN extends AbstractAlgorithms {
 			sqrEuclidTree = new KdTree.SqrEuclid<Integer>(pointDimension, 100000);
 		}
 		for (int j = 0; j < points.length; j++){
+			tempPoints = new double[points.length][points[0].length];
 			for (int l = 0; l < points[0].length; l++)
-			tempPoints[j][k] = (double) points[j][k];
+			tempPoints[j][k] = points[j][k];
 		}
-		for (int i = 0; i < this.values.length; i++) {
+		for (int i = 0; i < tempPoints.length; i++) {
 			sqrEuclidTree.addPoint(tempPoints[i], values[i]);
 			manhattanTree.addPoint(tempPoints[i], values[i]);
 		}
@@ -68,10 +69,11 @@ public class KNN extends AbstractAlgorithms {
 	classes = new int[classesEntry.size()];
 	for (int i= 0; i < classesEntry.size(); i++){
 		classes[i] = (classesEntry.get(i).value);
+		//System.out.println(classes[i]);
 	}
 	pointclass = mostCommon(classes);
 	sqrEuclidTree.addPoint(point, pointclass);
-	System.out.println(pointclass);
+	//System.out.println(pointclass);
 	return pointclass;
 	}
 	
