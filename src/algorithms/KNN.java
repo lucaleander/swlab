@@ -36,15 +36,17 @@ public class KNN extends AbstractAlgorithms {
 	private void IndexTree() {
 		double[][] tempPoints = new double[points.length][points[0].length];
 		if (manhattanTree == null){
-		manhattanTree = new KdTree.Manhattan<Integer>(pointDimension, 100000);
+			manhattanTree = new KdTree.Manhattan<Integer>(pointDimension, 100000);
 		}
 		if (sqrEuclidTree == null){
 			sqrEuclidTree = new KdTree.SqrEuclid<Integer>(pointDimension, 100000);
 		}
 		for (int j = 0; j < points.length; j++){
-			tempPoints = new double[points.length][points[0].length];
-			for (int l = 0; l < points[0].length; l++)
-			tempPoints[j][k] = points[j][k];
+			tempPoints[j] = new double[points[0].length];
+			
+			for (int l = 0; l < points[0].length; l++) {
+				tempPoints[j][l] = points[j][l];
+			}
 		}
 		for (int i = 0; i < tempPoints.length; i++) {
 			sqrEuclidTree.addPoint(tempPoints[i], values[i]);
