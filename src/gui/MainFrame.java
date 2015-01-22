@@ -237,9 +237,17 @@ public class MainFrame extends JFrame implements ActionListener{
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                int[] temp = new int[result.getCount_of_learn_per_class().length];
+                for (int i=0; i < result.getCount_of_learn_per_class().length; i++){
+                    temp[i]=result.getCount_of_learn_per_class()[i] - result.getCount_of_test_per_class()[i];
+                }
+                int sum = 0;
+                for (int i=0; i<temp.length;i++){
+                    sum += temp[i];
+                }
                 ta_stats.append(
                         "Test finished!\n" +
-                        "KNN learned with k= "+tf_k.getText()+" and\n"+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
+                        "KNN learned with k= "+tf_k.getText()+" and\n"+sum+" "+Arrays.toString(temp)+"\n"+
                         "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                         result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
                         "Distance was measured the "+diststr+" way.\n\n\n");
@@ -324,9 +332,19 @@ public class MainFrame extends JFrame implements ActionListener{
                     e1.printStackTrace();
                 }
                 tabbedPane.add(statspanel,"Stats");
+
+                int[] temp = new int[result.getCount_of_learn_per_class().length];
+                for (int i=0; i < result.getCount_of_learn_per_class().length; i++){
+                    temp[i]=result.getCount_of_learn_per_class()[i] - result.getCount_of_test_per_class()[i];
+                }
+                int sum = 0;
+                for (int i=0; i<temp.length;i++){
+                    sum += temp[i];
+                }
+
                 ta_stats.append(
                         "Test finished!\n" +
-                                "KMean learned with k= "+tf_k.getText()+" and\n"+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
+                                "KMean learned with k= "+tf_k.getText()+" and\n"+sum+" "+ Arrays.toString(temp)+"\n"+
                                 "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                                 result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
                                 "Distance was measured the "+cb_dist.getSelectedItem().toString()+" way.\nThe following learn data was assigned to from clusters:\n"+result.getFalsesLearn().length+Arrays.toString(Example.getClassesByCount(result.getFalsesLearn()))+"\n\n\n");
