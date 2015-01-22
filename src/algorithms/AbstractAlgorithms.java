@@ -9,28 +9,27 @@ public abstract class AbstractAlgorithms {
 	/*
 	 * Returns the most common element of an Integer List as an int.
 	 */
-	public int mostCommon(int[] newclasses){
-		int[] classes = newclasses;
-		int count = 1;
-		int temp = 0;
-		int tempCount;
-		int common = classes[0];
-		for (int i = 0; i < (classes.length-1); i++){
-			temp = classes[i];
-			//System.out.println(temp);
-			tempCount=0;
-			for (int j = 0; j < classes.length; j++){
-				//System.out.println(tempCount + ", " + classes[j] + ", " + temp);
-				if (temp == classes[j]){
-
-					tempCount++;
-				}
-			}
-		if (tempCount>count)
-			count=tempCount;
-			common=temp;
-		}
-	return common;	
+	public static int mostCommon(int[] a)
+	{
+	  int count = 1, tempCount;
+	  int popular = a[0];
+	  int temp = 0;
+	  for (int i = 0; i < (a.length - 1); i++)
+	  {
+	    temp = a[i];
+	    tempCount = 0;
+	    for (int j = 1; j < a.length; j++)
+	    {
+	      if (temp == a[j])
+	        tempCount++;
+	    }
+	    if (tempCount > count)
+	    {
+	      popular = temp;
+	      count = tempCount;
+	    }
+	  }
+	  return popular;
 	}
 	
 	public double computeEuclidDistance(int[] p1, double[] p2){
@@ -71,5 +70,7 @@ public abstract class AbstractAlgorithms {
 	public void setPoints(int[][] points) {
 	this.points = points;
 	}
+	
+
 
 }
