@@ -239,7 +239,7 @@ public class MainFrame extends JFrame implements ActionListener{
                 }
                 ta_stats.append(
                         "Test finished!\n" +
-                        "KNN learned with k= "+tf_k.toString()+" and\n"+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
+                        "KNN learned with k= "+tf_k.getText()+" and\n"+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                         "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                         result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
                         "Distance was measured the "+diststr+" way.\n\n\n");
@@ -326,7 +326,7 @@ public class MainFrame extends JFrame implements ActionListener{
                 tabbedPane.add(statspanel,"Stats");
                 ta_stats.append(
                         "Test finished!\n" +
-                                "KMean learned with k= "+tf_k.toString()+" and\n"+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
+                                "KMean learned with k= "+tf_k.getText()+" and\n"+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                                 "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
                                 result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
                                 "Distance was measured the "+cb_dist.getSelectedItem().toString()+" way.\nThe following learn data was assigned to from clusters:\n"+result.getFalsesLearn().length+Arrays.toString(Example.getClassesByCount(result.getFalsesLearn()))+"\n\n\n");
