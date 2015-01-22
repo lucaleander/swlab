@@ -142,11 +142,11 @@ public class KMean extends AbstractAlgorithms {
 		int tempCloud;
 		if (euclid == true){
 			tempCloud=0;
-			double tempDist=0;
+			double tempDist=-1;
 			double dist;
 				for (int j = 0; j < k; j++){
 					dist = computeEuclidDistance(newValue.getImageData(), clusterCenter[j]);
-					if (tempDist < dist){
+					if (tempDist < 0 || dist < tempDist){
 						tempCloud=j;
 						tempDist=dist;
 					}
@@ -154,11 +154,11 @@ public class KMean extends AbstractAlgorithms {
 			cluster.get(tempCloud).add(newEx);
 		}else{
 			tempCloud=0;
-			double tempDist=0;
+			double tempDist=-1;
 			double dist;
 				for (int j = 0; j < k; j++){
 					dist = computeManhattanDistance(newValue.getImageData(), clusterCenter[j]);
-					if (tempDist < dist){
+					if (tempDist < 0 || dist < tempDist){
 						tempCloud=j;
 						tempDist=dist;
 					}

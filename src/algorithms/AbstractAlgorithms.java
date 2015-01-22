@@ -9,7 +9,7 @@ public abstract class AbstractAlgorithms {
 	/*
 	 * Returns the most common element of an Integer List as an int.
 	 */
-	public static int mostCommon(int[] a)
+	public int mostCommon(int[] a)
 	{
 	  int count = 1, tempCount;
 	  int popular = a[0];
