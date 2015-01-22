@@ -45,7 +45,7 @@ public class MainFrame extends JFrame implements ActionListener{
 
 
     public MainFrame() {
-        super("Workbench of DOOM");
+        super("Workbench");
         setVisible(true);
         tabbedPane = new JTabbedPane();
 
@@ -53,7 +53,7 @@ public class MainFrame extends JFrame implements ActionListener{
         fc = new JFileChooser();
         importpanel = new JPanel(false);
         importpanel.setLayout(new GridLayout(0, 1));
-        importpanel.setPreferredSize(new Dimension(410, 150));
+        importpanel.setPreferredSize(new Dimension(420, 180));
         openLabels = new JButton("Select labels file...");
         openLabels.addActionListener(this);
         openImages = new JButton("Select images file...");

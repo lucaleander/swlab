@@ -67,7 +67,6 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-
         imgp_frame.add(imgp);
         validate();
 
@@ -78,6 +77,7 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         }*/
         //System.out.println("This:"+exs[i].getTargetValue());
         tf1.setText(Integer.toString(exs[i].getTargetValue()));
+        System.out.println(res[i]);
         tf2.setText(Integer.toString(res[i]));
         if (i+1 >= exs.length || i+1 >= res.length ) parent.remove(this); else i++;
     }
