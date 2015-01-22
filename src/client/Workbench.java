@@ -85,7 +85,7 @@ public class Workbench {
         System.out.println("LOOK HERE also: "+Arrays.toString(rese));
         System.out.println("LOOK HERE also: "+Arrays.toString(resi));
 
-        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),0);
+        return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),kmean.computeMeanSquaredError());
         }
     public void importPerst(String name) {
         PerstLearningData db = PerstLearningData.getInstance();

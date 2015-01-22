@@ -15,11 +15,12 @@ public class Kmeancontainer {
     private ArrayList<Example> falses = new ArrayList<Example>();
     private ArrayList<Integer> shouldbe = new ArrayList<Integer>();
     private int[] result, count_of_learn_per_class, count_of_test_per_class;
-    private int count_of_learn, count_of_test, error;
+    private int count_of_learn, count_of_test;
+    double error;
 
 
 
-    public Kmeancontainer(ArrayList<FalseAssigned> falseAssigneds,Example[] example, int[] result, int[] count_of_learn_per_class, int[] count_of_test_per_class, int error) {
+    public Kmeancontainer(ArrayList<FalseAssigned> falseAssigneds,Example[] example, int[] result, int[] count_of_learn_per_class, int[] count_of_test_per_class, double error) {
         this.example = example;
         this.result = result;
         this.count_of_learn_per_class = count_of_learn_per_class;
@@ -68,7 +69,7 @@ public class Kmeancontainer {
         return sum;
     }
 
-    public int getError() {
+    public double getError() {
         return error;
     }
 
