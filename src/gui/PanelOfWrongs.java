@@ -61,12 +61,6 @@ public class PanelOfWrongs extends JPanel implements ActionListener {
         if (null != imgp) imgp_frame.remove(imgp);
 
         imgp = new ImagePanel(exs[i].getImageValue());
-//        try {
-//			imgp = new ImagePanel(PngConverter.loadImage(new ImageDefinition(28, 28), new File("./data/8.png")));
-//		} catch (ParserException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
         imgp_frame.add(imgp);
         validate();
 
