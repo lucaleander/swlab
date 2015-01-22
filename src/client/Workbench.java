@@ -79,10 +79,7 @@ public class Workbench {
             Example example = learningData.getExamples().subList(0,n).get(i);
             rese[i] = example;
             resi[i] = kmean.addPoint(example);
-            System.out.println("meensch:  "+resi[i]);
-
         }
-        System.out.println("LOOK HERE also: "+Arrays.toString(rese));
         System.out.println("LOOK HERE also: "+Arrays.toString(resi));
 
         return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),kmean.computeMeanSquaredError());
