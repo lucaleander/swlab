@@ -26,7 +26,7 @@ public class Workbench {
 
     public void importMinst(File labelFile, File imageFile, int start, int size) throws IOException, ParserException {
         this.learningData = MinstConverter.loadMinst(new Schema(new IntTargetDefinition(0, 9), new ImageDefinition(28, 28)), start, size, labelFile, imageFile);
-        System.out.println(learningData.getExamples().get(0).getTargetValue());
+        //System.out.println(learningData.getExamples().get(0).getTargetValue());
     }
 
     public void importPng(File file) throws IOException, ParserException {
@@ -67,7 +67,7 @@ public class Workbench {
         return kmean.getCluster();
     }
     public Kmeancontainer kmeantest(int[] clusterlabels, int n) {
-       System.out.println("LOOK HERE: "+Arrays.toString(clusterlabels));
+       //System.out.println("LOOK HERE: "+Arrays.toString(clusterlabels));
         int index = 0;
         for (int c:clusterlabels){
             kmean.assignClusterClass(index,c);
@@ -80,7 +80,7 @@ public class Workbench {
             rese[i] = example;
             resi[i] = kmean.addPoint(example);
         }
-        System.out.println("LOOK HERE also: "+Arrays.toString(resi));
+        //System.out.println("LOOK HERE also: "+Arrays.toString(resi));
 
         return new Kmeancontainer(kmean.checkFalseAssigned(),rese,resi,Example.getClassesByCount(learningData.getExamples()),Example.getClassesByCount(new ArrayList<Example>(learningData.getExamples().subList(0,n))),kmean.computeMeanSquaredError());
         }

@@ -150,7 +150,7 @@ public class MainFrame extends JFrame implements ActionListener{
 
     private void createStatsPanel(){
         statspanel = new JPanel(false);
-        statspanel.setLayout(new GridLayout(0,1));
+        statspanel.setLayout(new BorderLayout());
 
         ta_stats = new JTextArea();
         statspanel.add(ta_stats);
@@ -239,10 +239,10 @@ public class MainFrame extends JFrame implements ActionListener{
                 }
                 ta_stats.append(
                         "Test finished!\n" +
-                        "KNN learned with "+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
+                        "KNN learned with k= "+tf_k.toString()+" and\n"+result.getCount_of_learn()+" "+Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                         "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
-                        result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+" objects were used in the test.\n"+
-                        "Distance was measured the "+diststr+" way.");
+                        result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
+                        "Distance was measured the "+diststr+" way.\n\n\n");
                 tabbedPane.addTab("Stats", statspanel);
 
             } else if (cb_algo.getSelectedIndex() == 1) {
@@ -290,17 +290,17 @@ public class MainFrame extends JFrame implements ActionListener{
             }
         } else if (e.getSource() == btn_cluster) {
             cluster_labels[cluster_i] = Integer.parseInt(cb_cluster.getSelectedItem().toString());
-            System.out.println(cluster_i+"i "+cluster_j+"j "+cluster_list.size()+"clustercount "+cluster_list.get(cluster_i).size()+"clustersize");
+            //System.out.println(cluster_i+"i "+cluster_j+"j "+cluster_list.size()+"clustercount "+cluster_list.get(cluster_i).size()+"clustersize");
 
             cluster_i++;
 
             while (cluster_i+1 < cluster_list.size() && 0>=cluster_list.get(cluster_i).size()){
                 cluster_labels[cluster_i] = -1;
                 cluster_i++;
-                System.out.println("i="+cluster_i);
-                System.out.println(cluster_list.get(cluster_i).size());
+                //System.out.println("i="+cluster_i);
+                //System.out.println(cluster_list.get(cluster_i).size());
             }
-            System.out.println("clusterlistsize:"+cluster_list.size());
+            //System.out.println("clusterlistsize:"+cluster_list.size());
             if (0 < cluster_list.get(cluster_i).size()){
                 cluster_j = 0;
                 try {
@@ -326,10 +326,10 @@ public class MainFrame extends JFrame implements ActionListener{
                 tabbedPane.add(statspanel,"Stats");
                 ta_stats.append(
                         "Test finished!\n" +
-                                "KMean learned with "+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
+                                "KMean learned with k= "+tf_k.toString()+" and\n"+result.getCount_of_learn()+" "+ Arrays.toString(result.getCount_of_learn_per_class())+"\n"+
                                 "and classified "+result.getFalses().length+" wrong with a mean squared error of: "+result.getError()+"\n"+
-                                result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+" objects were used in the test.\n"+
-                                "Distance was measured the "+cb_dist.getSelectedItem().toString()+" way.");
+                                result.getCount_of_test()+" "+Arrays.toString(result.getCount_of_test_per_class())+"\n objects were used in the test.\n"+
+                                "Distance was measured the "+cb_dist.getSelectedItem().toString()+" way.\n\n\n");
             }
 
 
