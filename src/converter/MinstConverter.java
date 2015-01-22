@@ -15,7 +15,7 @@ public class MinstConverter extends AbstractConverter {
 
 	@SuppressWarnings("resource")
 	public static IntTargetValue[] loadLabelFile(IntTargetDefinition intTargetDefinition, int begin, int size, File file) throws IOException, ParserException {
-		System.out.println(begin + " " + size);
+		//System.out.println(begin + " " + size);
 		
 		FileInputStream fh = new FileInputStream(file);
 		
@@ -46,7 +46,7 @@ public class MinstConverter extends AbstractConverter {
 	
 	@SuppressWarnings("resource")
 	public static ImageValue[] loadImageFile(ImageDefinition imageDefinition, int begin, int size, File file) throws IOException, ParserException {
-		System.out.println(begin + " " + size);
+		//System.out.println(begin + " " + size);
 		FileInputStream fh = new FileInputStream(file);
 		
 		byte[] bs = new byte[4];
